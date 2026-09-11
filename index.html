@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Estimate BMI, daily calorie needs, healthy weight range, and macronutrients."
+    >
+
+    <title>Daily Nutrition Calculator</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="brand">
+            <div class="brand-mark">⌁</div>
+
+            <div>
+                <h1>Daily Nutrition Calculator</h1>
+                <p>
+                    Estimate your daily energy and nutrition needs.
+                </p>
+            </div>
+        </div>
+    </header>
+
+
+    <main>
+
+        <!-- =====================================================
+             CALCULATOR
+        ====================================================== -->
+
+        <section class="calculator-card">
+
+            <div class="section-heading">
+
+                <span class="section-number">1</span>
+
+                <div>
+                    <h2>Calculate Your Daily Needs</h2>
+
+                    <p class="section-description">
+                        Enter your details, activity level, and goal.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <form id="nutritionForm" novalidate>
+
+                <!-- Personal Information -->
+
+                <fieldset>
+
+                    <legend>Personal Information</legend>
+
+                    <div class="personal-grid">
+
+                        <!-- Age -->
+
+                        <div class="field">
+
+                            <label for="Age">Age</label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="Age"
+                                    name="Age"
+                                    min="18"
+                                    max="90"
+                                    step="1"
+                                    placeholder="24"
+                                    required
+                                >
+
+                                <span>years</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Gender -->
+
+                        <div class="field">
+
+                            <label>Gender</label>
+
+                            <div class="radio-group inline-options">
+
+                                <label class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="Male"
+                                        name="Gender"
+                                        value="Male"
+                                        required
+                                    >
+
+                                    <span>Male</span>
+
+                                </label>
+
+
+                                <label class="radio-option">
+
+                                    <input
+                                        type="radio"
+                                        id="Female"
+                                        name="Gender"
+                                        value="Female"
+                                    >
+
+                                    <span>Female</span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Height -->
+
+                        <div class="field field-wide">
+
+                            <label for="unit">Height</label>
+
+                            <div class="height-controls">
+
+                                <select id="unit" name="unit">
+
+                                    <option value="cm">
+                                        cm
+                                    </option>
+
+                                    <option value="feet_inch">
+                                        ft / in
+                                    </option>
+
+                                </select>
+
+
+                                <input
+                                    type="number"
+                                    id="Centimeters"
+                                    name="Centimeters"
+                                    min="91.44"
+                                    max="274.32"
+                                    step="0.1"
+                                    placeholder="162.5"
+                                >
+
+
+                                <input
+                                    type="number"
+                                    id="Feet"
+                                    name="Feet"
+                                    min="3"
+                                    max="9"
+                                    step="1"
+                                    placeholder="ft"
+                                    hidden
+                                >
+
+
+                                <input
+                                    type="number"
+                                    id="Inches"
+                                    name="Inches"
+                                    min="0"
+                                    max="11"
+                                    step="1"
+                                    placeholder="in"
+                                    hidden
+                                >
+
+                            </div>
+
+                            <small class="field-hint">
+                                Adult height range: 91.4–274.3 cm
+                            </small>
+
+                        </div>
+
+
+                        <!-- Weight -->
+
+                        <div class="field">
+
+                            <label for="Weight">Weight</label>
+
+                            <div class="input-with-unit">
+
+                                <input
+                                    type="number"
+                                    id="Weight"
+                                    name="Weight"
+                                    min="25"
+                                    max="450"
+                                    step="0.1"
+                                    placeholder="60"
+                                    required
+                                >
+
+                                <span>kg</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+
+                <!-- Activity -->
+
+                <fieldset>
+
+                    <legend>Activity &amp; Lifestyle</legend>
+
+                    <div class="activity-grid">
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="Activity"
+                                value="sedentary"
+                            >
+
+                            <span>
+                                <strong>Sedentary</strong>
+                                <small>Little or no exercise</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="Activity"
+                                value="lightly_active"
+                            >
+
+                            <span>
+                                <strong>Lightly Active</strong>
+                                <small>1–3 days/week</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="Activity"
+                                value="moderately_active"
+                                checked
+                                required
+                            >
+
+                            <span>
+                                <strong>Moderately Active</strong>
+                                <small>3–5 days/week</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="Activity"
+                                value="very_active"
+                            >
+
+                            <span>
+                                <strong>Very Active</strong>
+                                <small>6–7 days/week</small>
+                            </span>
+
+                        </label>
+
+
+                        <label class="choice-card">
+
+                            <input
+                                type="radio"
+                                name="Activity"
+                                value="extremely_active"
+                            >
+
+                            <span>
+                                <strong>Extremely Active</strong>
+                                <small>Hard training</small>
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                </fieldset>
+
+
+                <!-- Goal -->
+
+                <fieldset>
+
+                    <legend>Goal</legend>
+
+                    <div class="goal-grid">
+
+                        <label class="choice-card compact">
+
+                            <input
+                                type="radio"
+                                name="Goal"
+                                value="maintain"
+                            >
+
+                            <span>Maintain Weight</span>
+
+                        </label>
+
+
+                        <label class="choice-card compact">
+
+                            <input
+                                type="radio"
+                                name="Goal"
+                                value="lose"
+                                checked
+                            >
+
+                            <span>Lose Weight</span>
+
+                        </label>
+
+
+                        <label class="choice-card compact">
+
+                            <input
+                                type="radio"
+                                name="Goal"
+                                value="gain"
+                            >
+
+                            <span>Gain Weight</span>
+
+                        </label>
+
+                    </div>
+
+                </fieldset>
+
+
+                <!-- Validation message -->
+
+                <p
+                    id="formMessage"
+                    class="form-message"
+                    aria-live="polite"
+                ></p>
+
+
+                <!-- Submit -->
+
+                <button type="submit">
+                    Calculate My Needs
+                </button>
+
+
+                <p class="privacy-note">
+                    Estimates only · Your data stays in your browser.
+                </p>
+
+            </form>
+
+        </section>
+
+
+        <!-- =====================================================
+             RESULTS
+        ====================================================== -->
+
+        <section class="results-card">
+
+            <div class="results-header">
+
+                <div>
+                    <h2>Your Results</h2>
+
+                    <p>
+                        Personalized estimates based on your inputs.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- Calories -->
+
+            <div class="calorie-highlight">
+
+                <div>
+
+                    <h3>Daily Calories</h3>
+
+                    <div class="calorie-value">
+
+                        <output id="caloriesResult">—</output>
+
+                        <span>kcal/day</span>
+
+                    </div>
+
+                </div>
+
+                <p id="calorieDescription">
+                    Calculate your needs to see an estimate.
+                </p>
+
+            </div>
+
+
+            <!-- Main metrics -->
+
+            <div class="metric-grid">
+
+                <div class="metric-card">
+
+                    <h3>BMI</h3>
+
+                    <output id="bmiResult">—</output>
+
+                    <p id="bmiDescription">
+                        Body Mass Index
+                    </p>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <h3>BMI Recommendation</h3>
+
+                    <output id="bmiRecommendation">—</output>
+
+                    <p>
+                        Adult screening category
+                    </p>
+
+                </div>
+
+
+                <div class="metric-card">
+
+                    <h3>Healthy Weight Range</h3>
+
+                    <div class="inline-result">
+
+                        <output id="healthyWeightResult">—</output>
+
+                        <span>kg</span>
+
+                    </div>
+
+                    <p>
+                        BMI 18.5–24.9
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Macronutrients -->
+
+            <div class="macronutrient-section">
+
+                <div class="results-subheading">
+
+                    <h3>Macronutrients</h3>
+
+                    <p>
+                        Estimated daily targets from your calorie goal.
+                    </p>
+
+                </div>
+
+
+                <div class="macros">
+
+                    <div class="macro-card protein">
+
+                        <span>Protein</span>
+
+                        <div>
+
+                            <output id="proteinResult">—</output>
+
+                            <small>g</small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="macro-card carbs">
+
+                        <span>Carbs</span>
+
+                        <div>
+
+                            <output id="carbsResult">—</output>
+
+                            <small>g</small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="macro-card fat">
+
+                        <span>Fat</span>
+
+                        <div>
+
+                            <output id="fatResult">—</output>
+
+                            <small>g</small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Daily targets -->
+
+            <div class="daily-targets">
+
+                <div class="results-subheading">
+
+                    <h3>General Daily Targets</h3>
+
+                    <p>
+                        Reference recommendations, not personalized medical advice.
+                    </p>
+
+                </div>
+
+
+                <div class="targets-grid">
+
+                    <div class="target-card">
+
+                        <span>💧</span>
+
+                        <div>
+                            <strong>Total Water</strong>
+
+                            <output id="waterResult">
+                                —
+                            </output>
+
+                            <small>food + fluids</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="target-card">
+
+                        <span>🌾</span>
+
+                        <div>
+                            <strong>Fiber</strong>
+
+                            <output id="fiberResult">
+                                —
+                            </output>
+
+                            <small>g/day</small>
+                        </div>
+
+                    </div>
+
+
+                    <div class="target-card">
+
+                        <span>🚶</span>
+
+                        <div>
+                            <strong>Movement</strong>
+
+                            <output id="stepsResult">
+                                —
+                            </output>
+
+                            <small>general target</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Calculation details -->
+
+            <details class="calculation-details">
+
+                <summary>
+                    How this estimate is calculated
+                </summary>
+
+                <div class="details-content">
+
+                    <div>
+                        <span>Resting energy</span>
+                        <strong id="bmrResult">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Activity factor</span>
+                        <strong id="activityFactorResult">—</strong>
+                    </div>
+
+                    <div>
+                        <span>Goal adjustment</span>
+                        <strong id="goalAdjustmentResult">—</strong>
+                    </div>
+
+                </div>
+
+            </details>
+
+
+            <p class="results-disclaimer">
+                This calculator provides estimates for general education.
+                BMI is a screening measure and calorie needs can vary with
+                body composition, health status, medications, and other factors.
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <p>
+            Daily Nutrition Calculator · Built with HTML, CSS &amp; JavaScript
+        </p>
+
+    </footer>
+
+</body>
+
+</html>

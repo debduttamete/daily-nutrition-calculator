@@ -1,0 +1,1221 @@
+/* ============================================================
+   DESIGN TOKENS
+============================================================ */
+
+:root {
+    --bg: #F6F8FB;
+    --surface: #FFFFFF;
+
+    --text: #172033;
+    --muted: #667085;
+
+    --primary: #0FAF8F;
+    --primary-dark: #087F6B;
+
+    --mint: #E8F8F4;
+    --mint-border: #CFEDE5;
+
+    --border: #E4E7EC;
+    --input-bg: #FBFCFE;
+
+    --error: #D92D20;
+
+    --shadow:
+        0 4px 18px rgba(16, 24, 40, 0.06);
+}
+
+
+/* ============================================================
+   RESET
+============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+
+    color: var(--text);
+
+    background: var(--bg);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.site-header {
+    padding: 16px 24px;
+
+    background: rgba(255, 255, 255, 0.96);
+
+    border-bottom: 1px solid var(--border);
+}
+
+.brand {
+    width: min(1240px, calc(100% - 32px));
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.brand-mark {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--mint);
+
+    color: var(--primary-dark);
+
+    font-size: 22px;
+
+    font-weight: 700;
+}
+
+.brand h1 {
+    margin: 0;
+
+    font-size: 19px;
+
+    line-height: 1.2;
+}
+
+.brand p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   MAIN LAYOUT
+============================================================ */
+
+main {
+    width: min(1240px, calc(100% - 32px));
+
+    margin: 18px auto 24px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1.08fr);
+
+    gap: 18px;
+
+    align-items: start;
+}
+
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+section {
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    box-shadow: var(--shadow);
+}
+
+
+/* ============================================================
+   HEADINGS
+============================================================ */
+
+.section-heading {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 9px;
+
+    margin-bottom: 7px;
+}
+
+.section-number {
+    width: 26px;
+    height: 26px;
+
+    flex: 0 0 26px;
+
+    display: grid;
+
+    place-items: center;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+section h2 {
+    margin: 0;
+
+    color: var(--text);
+
+    font-size: 18px;
+
+    line-height: 1.2;
+}
+
+.section-description {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 11px;
+}
+
+
+/* ============================================================
+   FORM
+============================================================ */
+
+form {
+    margin-top: 4px;
+}
+
+fieldset {
+    border: 0;
+
+    padding: 10px 0;
+
+    margin: 0;
+
+    border-top: 1px solid #EEF1F4;
+}
+
+fieldset:first-child {
+    border-top: 0;
+
+    padding-top: 4px;
+}
+
+legend {
+    padding: 0;
+
+    margin-bottom: 8px;
+
+    color: var(--text);
+
+    font-size: 13px;
+
+    font-weight: 700;
+}
+
+
+/* ============================================================
+   PERSONAL GRID
+============================================================ */
+
+.personal-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 0.75fr)
+        minmax(0, 1fr);
+
+    gap: 10px 16px;
+}
+
+.field {
+    min-width: 0;
+}
+
+.field-wide {
+    grid-column: span 1;
+}
+
+.field > label {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+.field-hint {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   INPUTS
+============================================================ */
+
+input[type="number"],
+select {
+    width: 100%;
+
+    height: 34px;
+
+    padding: 6px 8px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    background:
+        var(--input-bg);
+
+    color:
+        var(--text);
+
+    font:
+        inherit;
+
+    font-size: 12px;
+}
+
+input::placeholder {
+    color: #98A2B3;
+}
+
+
+/* Height */
+
+.height-controls {
+    display: grid;
+
+    grid-template-columns:
+        86px
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 6px;
+}
+
+.height-controls select {
+    width: 86px;
+}
+
+.height-controls input:only-of-type {
+    grid-column: 2 / span 2;
+}
+
+
+/* Unit + value */
+
+.input-with-unit {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+}
+
+.input-with-unit input {
+    border-radius: 8px 0 0 8px;
+}
+
+.input-with-unit span {
+    min-width: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 7px;
+
+    border:
+        1px solid var(--border);
+
+    border-left: 0;
+
+    border-radius: 0 8px 8px 0;
+
+    background: #F2F4F7;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* Focus */
+
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+
+    border-color:
+        var(--primary);
+
+    box-shadow:
+        0 0 0 3px rgba(167, 232, 219, 0.55);
+}
+
+
+/* ============================================================
+   RADIO OPTIONS
+============================================================ */
+
+.radio-group {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 8px 16px;
+}
+
+.inline-options {
+    min-height: 34px;
+}
+
+.radio-option {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    cursor: pointer;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+.radio-option input {
+    margin: 0;
+
+    accent-color: var(--primary);
+}
+
+
+/* ============================================================
+   ACTIVITY
+============================================================ */
+
+.activity-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(5, minmax(0, 1fr));
+
+    gap: 6px;
+}
+
+.choice-card {
+    position: relative;
+
+    min-width: 0;
+
+    min-height: 70px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 4px;
+
+    padding: 8px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background:
+        var(--surface);
+
+    text-align: center;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.choice-card:hover {
+    transform: translateY(-1px);
+
+    border-color:
+        #B8DED6;
+}
+
+.choice-card input {
+    margin: 0;
+
+    accent-color:
+        var(--primary);
+}
+
+.choice-card span {
+    min-width: 0;
+}
+
+.choice-card strong {
+    display: block;
+
+    font-size: 10px;
+
+    line-height: 1.2;
+}
+
+.choice-card small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    line-height: 1.2;
+}
+
+.choice-card:has(input:checked) {
+    border-color:
+        var(--primary);
+
+    background:
+        var(--mint);
+
+    box-shadow:
+        0 0 0 1px var(--primary);
+}
+
+
+/* ============================================================
+   GOAL
+============================================================ */
+
+.goal-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+}
+
+.choice-card.compact {
+    min-height: 40px;
+
+    flex-direction: row;
+
+    justify-content: center;
+
+    gap: 6px;
+
+    padding: 8px;
+}
+
+.choice-card.compact span {
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   FORM MESSAGE
+============================================================ */
+
+.form-message {
+    min-height: 16px;
+
+    margin: 5px 0 0;
+
+    color: var(--error);
+
+    font-size: 10px;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   BUTTON
+============================================================ */
+
+button {
+    width: 100%;
+
+    margin-top: 5px;
+
+    padding: 9px 14px;
+
+    border: 0;
+
+    border-radius: 9px;
+
+    background:
+        var(--primary);
+
+    color:
+        white;
+
+    font:
+        inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.18s ease,
+        background-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+button:hover {
+    background:
+        var(--primary-dark);
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 5px 12px rgba(15, 175, 143, 0.18);
+}
+
+button:active {
+    transform:
+        translateY(0);
+}
+
+button:focus-visible {
+    outline:
+        3px solid var(--focus);
+
+    outline-offset:
+        2px;
+}
+
+.privacy-note {
+    margin: 5px 0 0;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    text-align: center;
+}
+
+
+/* ============================================================
+   RESULTS HEADER
+============================================================ */
+
+.results-header h2 {
+    font-size: 18px;
+}
+
+.results-header p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   CALORIE HERO
+============================================================ */
+
+.calorie-highlight {
+    margin-top: 10px;
+
+    padding: 12px 13px;
+
+    border:
+        1px solid var(--mint-border);
+
+    border-radius: 10px;
+
+    background:
+        var(--mint);
+}
+
+.calorie-highlight h3 {
+    margin: 0;
+
+    color:
+        var(--primary-dark);
+
+    font-size: 11px;
+}
+
+.calorie-value {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 5px;
+}
+
+.calorie-highlight output {
+    font-size: 26px;
+
+    font-weight: 800;
+
+    color: var(--text);
+}
+
+.calorie-value span {
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.calorie-highlight p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   METRICS
+============================================================ */
+
+.metric-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+
+    margin-top: 7px;
+}
+
+.metric-card {
+    min-width: 0;
+
+    padding: 10px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background:
+        var(--surface);
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.metric-card:hover {
+    transform:
+        translateY(-1px);
+
+    border-color:
+        #CBDDD9;
+
+    box-shadow:
+        0 4px 10px rgba(16, 24, 40, 0.05);
+}
+
+.metric-card h3 {
+    margin: 0 0 3px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+.metric-card output {
+    display: inline-block;
+
+    color: var(--text);
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.metric-card p {
+    margin: 2px 0 0;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.inline-result {
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 3px;
+}
+
+.inline-result span {
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   MACROS
+============================================================ */
+
+.macronutrient-section {
+    margin-top: 9px;
+}
+
+.results-subheading h3 {
+    margin: 0;
+
+    font-size: 12px;
+}
+
+.results-subheading p {
+    margin: 2px 0 6px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.macros {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+}
+
+.macro-card {
+    padding: 9px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.macro-card:hover,
+.target-card:hover {
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 4px 10px rgba(16, 24, 40, 0.05);
+}
+
+.macro-card span {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+.macro-card output {
+    color: var(--text);
+
+    font-size: 18px;
+
+    font-weight: 800;
+}
+
+.macro-card small {
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+.macro-card.protein {
+    background: #F5FAFF;
+}
+
+.macro-card.carbs {
+    background: #F3FBF7;
+}
+
+.macro-card.fat {
+    background: #FFF9F2;
+}
+
+
+/* ============================================================
+   DAILY TARGETS
+============================================================ */
+
+.daily-targets {
+    margin-top: 10px;
+
+    padding-top: 9px;
+
+    border-top:
+        1px solid #EEF1F4;
+}
+
+.targets-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 7px;
+}
+
+.target-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    min-width: 0;
+
+    padding: 9px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 9px;
+
+    background:
+        #FBFCFE;
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.target-card > span {
+    font-size: 17px;
+}
+
+.target-card strong {
+    display: block;
+
+    font-size: 10px;
+}
+
+.target-card output {
+    display: block;
+
+    margin-top: 1px;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.target-card small {
+    color: var(--muted);
+
+    font-size: 8px;
+}
+
+
+/* ============================================================
+   CALCULATION DETAILS
+============================================================ */
+
+.calculation-details {
+    margin-top: 10px;
+
+    border-top:
+        1px solid #EEF1F4;
+
+    padding-top: 9px;
+}
+
+.calculation-details summary {
+    cursor: pointer;
+
+    color: var(--text);
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+.details-content {
+    margin-top: 7px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.details-content div {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 6px 9px;
+
+    border-bottom:
+        1px solid #EEF1F4;
+
+    font-size: 9px;
+}
+
+.details-content div:last-child {
+    border-bottom: 0;
+}
+
+.details-content span {
+    color: var(--muted);
+}
+
+.details-content strong {
+    color: var(--text);
+}
+
+
+/* ============================================================
+   DISCLAIMERS
+============================================================ */
+
+.results-disclaimer {
+    margin: 8px 0 0;
+
+    color: var(--muted);
+
+    font-size: 8px;
+
+    line-height: 1.4;
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+footer {
+    padding:
+        10px 20px 18px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 9px;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+============================================================ */
+
+@keyframes resultReveal {
+
+    from {
+        opacity: 0;
+
+        transform:
+            translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            translateY(0);
+    }
+}
+
+.results-card.has-results
+.calorie-highlight,
+.results-card.has-results
+.metric-card,
+.results-card.has-results
+.macro-card,
+.results-card.has-results
+.target-card {
+
+    animation:
+        resultReveal 0.32s ease both;
+}
+
+.results-card.has-results
+.metric-card:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.results-card.has-results
+.metric-card:nth-child(3) {
+    animation-delay: 0.08s;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 900px) {
+
+    main {
+        grid-template-columns: 1fr;
+
+        width:
+            min(720px, calc(100% - 24px));
+    }
+
+    .personal-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .activity-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .site-header {
+        padding: 14px;
+    }
+
+    .brand {
+        width: 100%;
+    }
+
+    main {
+        width: calc(100% - 16px);
+
+        margin-top: 10px;
+    }
+
+    section {
+        padding: 13px;
+    }
+
+    .personal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .activity-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .goal-grid,
+    .metric-grid,
+    .macros,
+    .targets-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .height-controls {
+        grid-template-columns:
+            82px
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+    }
+}
+
+
+/* ============================================================
+   REDUCED MOTION
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+
+        scroll-behavior: auto !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+}
