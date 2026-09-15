@@ -19,9 +19,40 @@
     --input-bg: #FBFCFE;
 
     --error: #D92D20;
+    --focus: rgba(167, 232, 219, 0.55);
 
-    --shadow:
-        0 4px 18px rgba(16, 24, 40, 0.06);
+    --protein-bg: #F5FAFF;
+    --carbs-bg: #F3FBF7;
+    --fat-bg: #FFF9F2;
+
+    --shadow: 0 4px 18px rgba(16, 24, 40, 0.06);
+}
+
+
+html[data-theme="dark"] {
+    --bg: #071426;
+    --surface: #0D1B2E;
+
+    --text: #F2F6FA;
+    --muted: #9FB0C3;
+
+    --primary: #2DD4A8;
+    --primary-dark: #18A987;
+
+    --mint: #103C37;
+    --mint-border: #1B6257;
+
+    --border: #26415D;
+    --input-bg: #102239;
+
+    --error: #F97066;
+    --focus: rgba(45, 212, 168, 0.25);
+
+    --protein-bg: #102A3A;
+    --carbs-bg: #10352C;
+    --fat-bg: #382D20;
+
+    --shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 
@@ -39,7 +70,6 @@ html {
 
 body {
     margin: 0;
-
     min-height: 100vh;
 
     font-family:
@@ -48,11 +78,9 @@ body {
         sans-serif;
 
     font-size: 14px;
-
     line-height: 1.4;
 
     color: var(--text);
-
     background: var(--bg);
 }
 
@@ -64,7 +92,7 @@ body {
 .site-header {
     padding: 16px 24px;
 
-    background: rgba(255, 255, 255, 0.96);
+    background: var(--surface);
 
     border-bottom: 1px solid var(--border);
 }
@@ -88,6 +116,8 @@ body {
     display: grid;
 
     place-items: center;
+
+    flex: 0 0 34px;
 
     border-radius: 50%;
 
@@ -114,6 +144,31 @@ body {
     color: var(--muted);
 
     font-size: 11px;
+}
+
+
+/* ============================================================
+   THEME TOGGLE
+============================================================ */
+
+.theme-toggle {
+    width: auto;
+
+    margin: 0 0 0 auto;
+
+    padding: 5px 9px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 6px;
+
+    background: var(--input-bg);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 12px;
 }
 
 
@@ -152,6 +207,299 @@ section {
     padding: 16px;
 
     box-shadow: var(--shadow);
+}
+
+
+/* ============================================================
+   CALCULATION MODE
+============================================================ */
+
+.mode-section,
+.trainer-section {
+    grid-column: 1 / -1;
+}
+
+.mode-options {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.mode-option {
+    flex: 1;
+
+    cursor: pointer;
+}
+
+.mode-option input {
+    position: absolute;
+
+    opacity: 0;
+
+    pointer-events: none;
+}
+
+.mode-option span {
+    display: block;
+
+    padding: 12px 16px;
+
+    text-align: center;
+
+    border: 1px solid var(--border);
+
+    border-radius: 8px;
+
+    background: var(--input-bg);
+
+    color: var(--text);
+
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.mode-option input:checked + span {
+    border-color: var(--primary);
+
+    background: var(--mint);
+
+    color: var(--primary-dark);
+
+    font-weight: 600;
+}
+
+
+/* ============================================================
+   TRAINER MODE
+============================================================ */
+
+.trainer-section {
+    background: var(--surface);
+}
+
+
+/* Four controls across desktop */
+
+.trainer-controls {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1.6fr
+        1fr
+        1fr;
+
+    gap: 12px;
+
+    align-items: end;
+}
+
+.trainer-control {
+    min-width: 0;
+}
+
+.trainer-control label {
+    display: block;
+
+    margin-bottom: 2px;
+
+    color: var(--text);
+
+    font-size: 12px;
+
+    font-weight: 700;
+}
+
+.trainer-control small {
+    display: block;
+
+    margin: 0 0 5px;
+
+    color: var(--primary-dark);
+
+    font-size: 10px;
+
+    line-height: 1.2;
+}
+
+
+/* Trainer inputs */
+
+.trainer-control > input[type="number"],
+.trainer-control > select {
+    width: 100%;
+
+    height: 34px;
+}
+
+
+/* ============================================================
+   TRAINER CALORIE GOAL
+============================================================ */
+
+/*
+   IMPORTANT:
+   The percentage control has its own fixed width.
+
+   The outer control is flexible.
+   The select takes remaining space.
+   The percentage input remains visible.
+*/
+
+.adjustment-input {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        82px;
+
+    gap: 6px;
+
+    align-items: stretch;
+}
+
+.adjustment-input select {
+    width: 100%;
+
+    min-width: 0;
+
+    height: 34px;
+}
+
+.adjustment-input .trainer-percent {
+    width: 82px;
+
+    min-width: 82px;
+
+    height: 34px;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        24px;
+}
+
+.adjustment-input .trainer-percent input {
+    width: 100%;
+
+    min-width: 0;
+
+    height: 34px;
+
+    padding-left: 6px;
+
+    padding-right: 4px;
+
+    border-radius: 8px 0 0 8px;
+}
+
+.adjustment-input .trainer-percent span {
+    min-width: 0;
+
+    width: 24px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    border: 1px solid var(--border);
+
+    border-left: 0;
+
+    border-radius: 0 8px 8px 0;
+
+    background: var(--input-bg);
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   GENERAL UNIT / VALUE CONTROLS
+============================================================ */
+
+.input-with-unit {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+}
+
+.input-with-unit input {
+    width: 100%;
+
+    min-width: 0;
+
+    border-radius: 8px 0 0 8px;
+}
+
+.input-with-unit span {
+    min-width: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0 7px;
+
+    border: 1px solid var(--border);
+
+    border-left: 0;
+
+    border-radius: 0 8px 8px 0;
+
+    background: var(--input-bg);
+
+    color: var(--muted);
+
+    font-size: 10px;
+}
+
+
+/* ============================================================
+   TRAINER NOTE
+============================================================ */
+
+.trainer-note {
+    margin-top: 12px;
+
+    padding: 8px 10px;
+
+    border: 1px solid var(--mint-border);
+
+    border-radius: 7px;
+
+    background: var(--mint);
+
+    color: var(--muted);
+
+    font-size: 11px;
+
+    line-height: 1.35;
+}
+
+.trainer-note strong {
+    color: var(--primary-dark);
 }
 
 
@@ -224,7 +572,7 @@ fieldset {
 
     margin: 0;
 
-    border-top: 1px solid #EEF1F4;
+    border-top: 1px solid var(--border);
 }
 
 fieldset:first-child {
@@ -303,29 +651,27 @@ select {
 
     padding: 6px 8px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 8px;
 
-    background:
-        var(--input-bg);
+    background: var(--input-bg);
 
-    color:
-        var(--text);
+    color: var(--text);
 
-    font:
-        inherit;
+    font: inherit;
 
     font-size: 12px;
 }
 
 input::placeholder {
-    color: #98A2B3;
+    color: var(--muted);
 }
 
 
-/* Height */
+/* ============================================================
+   HEIGHT
+============================================================ */
 
 .height-controls {
     display: grid;
@@ -347,57 +693,18 @@ input::placeholder {
 }
 
 
-/* Unit + value */
-
-.input-with-unit {
-    display: grid;
-
-    grid-template-columns:
-        minmax(0, 1fr)
-        auto;
-}
-
-.input-with-unit input {
-    border-radius: 8px 0 0 8px;
-}
-
-.input-with-unit span {
-    min-width: 42px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding: 0 7px;
-
-    border:
-        1px solid var(--border);
-
-    border-left: 0;
-
-    border-radius: 0 8px 8px 0;
-
-    background: #F2F4F7;
-
-    color: var(--muted);
-
-    font-size: 10px;
-}
-
-
-/* Focus */
+/* ============================================================
+   FOCUS
+============================================================ */
 
 input[type="number"]:focus,
 select:focus {
     outline: none;
 
-    border-color:
-        var(--primary);
+    border-color: var(--primary);
 
     box-shadow:
-        0 0 0 3px rgba(167, 232, 219, 0.55);
+        0 0 0 3px var(--focus);
 }
 
 
@@ -474,13 +781,11 @@ select:focus {
 
     padding: 8px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 9px;
 
-    background:
-        var(--surface);
+    background: var(--surface);
 
     text-align: center;
 
@@ -496,15 +801,13 @@ select:focus {
 .choice-card:hover {
     transform: translateY(-1px);
 
-    border-color:
-        #B8DED6;
+    border-color: var(--mint-border);
 }
 
 .choice-card input {
     margin: 0;
 
-    accent-color:
-        var(--primary);
+    accent-color: var(--primary);
 }
 
 .choice-card span {
@@ -532,11 +835,9 @@ select:focus {
 }
 
 .choice-card:has(input:checked) {
-    border-color:
-        var(--primary);
+    border-color: var(--primary);
 
-    background:
-        var(--mint);
+    background: var(--mint);
 
     box-shadow:
         0 0 0 1px var(--primary);
@@ -607,14 +908,11 @@ button {
 
     border-radius: 9px;
 
-    background:
-        var(--primary);
+    background: var(--primary);
 
-    color:
-        white;
+    color: white;
 
-    font:
-        inherit;
+    font: inherit;
 
     font-size: 12px;
 
@@ -629,27 +927,22 @@ button {
 }
 
 button:hover {
-    background:
-        var(--primary-dark);
+    background: var(--primary-dark);
 
-    transform:
-        translateY(-1px);
+    transform: translateY(-1px);
 
     box-shadow:
         0 5px 12px rgba(15, 175, 143, 0.18);
 }
 
 button:active {
-    transform:
-        translateY(0);
+    transform: translateY(0);
 }
 
 button:focus-visible {
-    outline:
-        3px solid var(--focus);
+    outline: 3px solid var(--focus);
 
-    outline-offset:
-        2px;
+    outline-offset: 2px;
 }
 
 .privacy-note {
@@ -689,20 +982,17 @@ button:focus-visible {
 
     padding: 12px 13px;
 
-    border:
-        1px solid var(--mint-border);
+    border: 1px solid var(--mint-border);
 
     border-radius: 10px;
 
-    background:
-        var(--mint);
+    background: var(--mint);
 }
 
 .calorie-highlight h3 {
     margin: 0;
 
-    color:
-        var(--primary-dark);
+    color: var(--primary-dark);
 
     font-size: 11px;
 }
@@ -758,13 +1048,11 @@ button:focus-visible {
 
     padding: 10px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 9px;
 
-    background:
-        var(--surface);
+    background: var(--surface);
 
     transition:
         transform 0.18s ease,
@@ -773,11 +1061,9 @@ button:focus-visible {
 }
 
 .metric-card:hover {
-    transform:
-        translateY(-1px);
+    transform: translateY(-1px);
 
-    border-color:
-        #CBDDD9;
+    border-color: var(--mint-border);
 
     box-shadow:
         0 4px 10px rgba(16, 24, 40, 0.05);
@@ -858,8 +1144,7 @@ button:focus-visible {
 .macro-card {
     padding: 9px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 9px;
 
@@ -870,8 +1155,7 @@ button:focus-visible {
 
 .macro-card:hover,
 .target-card:hover {
-    transform:
-        translateY(-1px);
+    transform: translateY(-1px);
 
     box-shadow:
         0 4px 10px rgba(16, 24, 40, 0.05);
@@ -904,15 +1188,15 @@ button:focus-visible {
 }
 
 .macro-card.protein {
-    background: #F5FAFF;
+    background: var(--protein-bg);
 }
 
 .macro-card.carbs {
-    background: #F3FBF7;
+    background: var(--carbs-bg);
 }
 
 .macro-card.fat {
-    background: #FFF9F2;
+    background: var(--fat-bg);
 }
 
 
@@ -925,8 +1209,7 @@ button:focus-visible {
 
     padding-top: 9px;
 
-    border-top:
-        1px solid #EEF1F4;
+    border-top: 1px solid var(--border);
 }
 
 .targets-grid {
@@ -949,13 +1232,11 @@ button:focus-visible {
 
     padding: 9px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 9px;
 
-    background:
-        #FBFCFE;
+    background: var(--input-bg);
 
     transition:
         transform 0.18s ease,
@@ -998,10 +1279,9 @@ button:focus-visible {
 .calculation-details {
     margin-top: 10px;
 
-    border-top:
-        1px solid #EEF1F4;
-
     padding-top: 9px;
+
+    border-top: 1px solid var(--border);
 }
 
 .calculation-details summary {
@@ -1017,8 +1297,7 @@ button:focus-visible {
 .details-content {
     margin-top: 7px;
 
-    border:
-        1px solid var(--border);
+    border: 1px solid var(--border);
 
     border-radius: 8px;
 
@@ -1036,8 +1315,7 @@ button:focus-visible {
 
     padding: 6px 9px;
 
-    border-bottom:
-        1px solid #EEF1F4;
+    border-bottom: 1px solid var(--border);
 
     font-size: 9px;
 }
@@ -1095,44 +1373,35 @@ footer {
     from {
         opacity: 0;
 
-        transform:
-            translateY(5px);
+        transform: translateY(5px);
     }
 
     to {
         opacity: 1;
 
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 }
 
-.results-card.has-results
-.calorie-highlight,
-.results-card.has-results
-.metric-card,
-.results-card.has-results
-.macro-card,
-.results-card.has-results
-.target-card {
-
+.results-card.has-results .calorie-highlight,
+.results-card.has-results .metric-card,
+.results-card.has-results .macro-card,
+.results-card.has-results .target-card {
     animation:
         resultReveal 0.32s ease both;
 }
 
-.results-card.has-results
-.metric-card:nth-child(2) {
+.results-card.has-results .metric-card:nth-child(2) {
     animation-delay: 0.04s;
 }
 
-.results-card.has-results
-.metric-card:nth-child(3) {
+.results-card.has-results .metric-card:nth-child(3) {
     animation-delay: 0.08s;
 }
 
 
 /* ============================================================
-   MOBILE
+   TABLET
 ============================================================ */
 
 @media (max-width: 900px) {
@@ -1144,16 +1413,41 @@ footer {
             min(720px, calc(100% - 24px));
     }
 
+
     .personal-grid {
         grid-template-columns: 1fr 1fr;
     }
+
 
     .activity-grid {
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
     }
+
+
+    .mode-options {
+        flex-direction: column;
+    }
+
+
+    .trainer-controls {
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 12px 10px;
+    }
+
+
+    .adjustment-control {
+        grid-column: 1 / -1;
+    }
+
 }
 
+
+/* ============================================================
+   MOBILE
+============================================================ */
 
 @media (max-width: 600px) {
 
@@ -1161,9 +1455,28 @@ footer {
         padding: 14px;
     }
 
+
     .brand {
         width: 100%;
     }
+
+
+    .brand h1 {
+        font-size: 17px;
+    }
+
+
+    .brand p {
+        font-size: 10px;
+    }
+
+
+    .theme-toggle {
+        padding: 5px 8px;
+
+        font-size: 11px;
+    }
+
 
     main {
         width: calc(100% - 16px);
@@ -1171,18 +1484,22 @@ footer {
         margin-top: 10px;
     }
 
+
     section {
         padding: 13px;
     }
+
 
     .personal-grid {
         grid-template-columns: 1fr;
     }
 
+
     .activity-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
     }
+
 
     .goal-grid,
     .metric-grid,
@@ -1191,12 +1508,56 @@ footer {
         grid-template-columns: 1fr;
     }
 
+
     .height-controls {
         grid-template-columns:
             82px
             minmax(0, 1fr)
             minmax(0, 1fr);
     }
+
+
+    /* Trainer */
+
+    .trainer-controls {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .adjustment-control {
+        grid-column: auto;
+    }
+
+
+    .adjustment-input {
+        grid-template-columns:
+            minmax(0, 1fr)
+            82px;
+
+        gap: 6px;
+
+        width: 100%;
+    }
+
+
+    .adjustment-input .trainer-percent {
+        width: 82px;
+
+        min-width: 82px;
+    }
+
+
+    .trainer-control label {
+        font-size: 11px;
+    }
+
+
+    .trainer-control small {
+        font-size: 9px;
+    }
+
 }
 
 
@@ -1218,4 +1579,5 @@ footer {
 
         transition-duration: 0.01ms !important;
     }
+
 }
