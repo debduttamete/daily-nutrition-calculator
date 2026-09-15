@@ -5,10 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="description"
-        content="Estimate BMI, daily calorie needs, healthy weight range, and macronutrients."
-    >
+    <meta name="description"
+        content="Estimate BMI, daily calorie needs, healthy weight range, and macronutrients.">
 
     <title>Daily Nutrition Calculator</title>
 
@@ -18,21 +16,297 @@
 
 <body>
 
+    <!-- =========================================================
+         HEADER
+    ========================================================== -->
+
     <header class="site-header">
+
         <div class="brand">
+
             <div class="brand-mark">⌁</div>
 
             <div>
                 <h1>Daily Nutrition Calculator</h1>
+
                 <p>
                     Estimate your daily energy and nutrition needs.
                 </p>
             </div>
+
+            <button type="button" class="theme-toggle" id="themeToggle">
+                🌙 Dark
+            </button>
+
         </div>
+
     </header>
 
 
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+
     <main>
+
+
+        <!-- =====================================================
+             CALCULATION MODE
+        ====================================================== -->
+
+        <section class="mode-section">
+
+            <div class="section-heading">
+
+                <span class="section-number">0</span>
+
+                <div>
+
+                    <h2>Calculation Mode</h2>
+
+                    <p class="section-description">
+                        Choose how you want to calculate your nutrition targets.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="mode-options">
+
+                <label class="mode-option">
+
+                    <input
+                        type="radio"
+                        name="calculationMode"
+                        value="standard"
+                        checked
+                    >
+
+                    <span>Standard</span>
+
+                </label>
+
+
+                <label class="mode-option">
+
+                    <input
+                        type="radio"
+                        name="calculationMode"
+                        value="trainer"
+                    >
+
+                    <span>Trainer Mode</span>
+
+                </label>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             TRAINER MODE
+        ====================================================== -->
+
+        <section
+            class="trainer-section"
+            id="trainerSettings"
+            hidden
+        >
+
+            <div class="section-heading">
+
+                <span class="section-number">T</span>
+
+                <div>
+
+                    <h2>Advanced Trainer Mode</h2>
+
+                    <p class="section-description">
+                        Customize the calculation parameters for your client.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <fieldset>
+
+                <legend>
+                    Activity &amp; Nutrition Targets
+                </legend>
+
+
+                <div class="trainer-controls">
+
+
+                    <!-- Activity Multiplier -->
+
+                    <div class="trainer-control">
+
+                        <label for="trainerActivityMultiplier">
+                            Activity
+                        </label>
+
+                        <small>
+                            Energy multiplier
+                        </small>
+
+                        <input
+                            type="number"
+                            id="trainerActivityMultiplier"
+                            name="trainerActivityMultiplier"
+                            min="1"
+                            max="2.5"
+                            step="0.01"
+                            value="1.55"
+                        >
+
+                    </div>
+
+
+                    <!-- Calorie Goal -->
+
+                    <div class="trainer-control adjustment-control">
+
+                        <label for="trainerAdjustmentType">
+                            Calorie Goal
+                        </label>
+
+                        <small>
+                            Target adjustment
+                        </small>
+
+
+                        <div class="adjustment-input">
+
+                            <select
+                                id="trainerAdjustmentType"
+                                name="trainerAdjustmentType"
+                            >
+
+                                <option value="maintain">
+                                    Maintain
+                                </option>
+
+                                <option value="deficit">
+                                    Deficit
+                                </option>
+
+                                <option value="surplus">
+                                    Surplus
+                                </option>
+
+                            </select>
+
+
+                            <div class="input-with-unit trainer-percent">
+
+                                <input
+                                    type="number"
+                                    id="trainerAdjustmentPercent"
+                                    name="trainerAdjustmentPercent"
+                                    min="0"
+                                    max="50"
+                                    step="1"
+                                    value="15"
+                                >
+
+                                <span>%</span>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Protein -->
+
+                    <div class="trainer-control">
+
+                        <label for="trainerProtein">
+                            Protein
+                        </label>
+
+                        <small>
+                            Per kg bodyweight
+                        </small>
+
+
+                        <div class="input-with-unit">
+
+                            <input
+                                type="number"
+                                id="trainerProtein"
+                                name="trainerProtein"
+                                min="0.8"
+                                max="3.5"
+                                step="0.1"
+                                value="1.8"
+                            >
+
+                            <span>
+                                g/kg
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Fat -->
+
+                    <div class="trainer-control">
+
+                        <label for="trainerFat">
+                            Fat
+                        </label>
+
+                        <small>
+                            Percent of calories
+                        </small>
+
+
+                        <div class="input-with-unit">
+
+                            <input
+                                type="number"
+                                id="trainerFat"
+                                name="trainerFat"
+                                min="15"
+                                max="50"
+                                step="1"
+                                value="25"
+                            >
+
+                            <span>
+                                %
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="trainer-note">
+
+                    <strong>Carbohydrates:</strong>
+
+                    Automatically calculated from the remaining calories.
+
+                </div>
+
+            </fieldset>
+
+        </section>
+
 
         <!-- =====================================================
              CALCULATOR
@@ -45,31 +319,46 @@
                 <span class="section-number">1</span>
 
                 <div>
+
                     <h2>Calculate Your Daily Needs</h2>
 
                     <p class="section-description">
                         Enter your details, activity level, and goal.
                     </p>
+
                 </div>
 
             </div>
 
 
-            <form id="nutritionForm" novalidate>
+            <form
+                id="nutritionForm"
+                novalidate
+            >
 
-                <!-- Personal Information -->
+
+                <!-- =================================================
+                     PERSONAL INFORMATION
+                ================================================== -->
 
                 <fieldset>
 
-                    <legend>Personal Information</legend>
+                    <legend>
+                        Personal Information
+                    </legend>
+
 
                     <div class="personal-grid">
+
 
                         <!-- Age -->
 
                         <div class="field">
 
-                            <label for="Age">Age</label>
+                            <label for="Age">
+                                Age
+                            </label>
+
 
                             <div class="input-with-unit">
 
@@ -84,7 +373,9 @@
                                     required
                                 >
 
-                                <span>years</span>
+                                <span>
+                                    years
+                                </span>
 
                             </div>
 
@@ -95,7 +386,10 @@
 
                         <div class="field">
 
-                            <label>Gender</label>
+                            <label>
+                                Gender
+                            </label>
+
 
                             <div class="radio-group inline-options">
 
@@ -109,7 +403,9 @@
                                         required
                                     >
 
-                                    <span>Male</span>
+                                    <span>
+                                        Male
+                                    </span>
 
                                 </label>
 
@@ -123,7 +419,9 @@
                                         value="Female"
                                     >
 
-                                    <span>Female</span>
+                                    <span>
+                                        Female
+                                    </span>
 
                                 </label>
 
@@ -136,11 +434,17 @@
 
                         <div class="field field-wide">
 
-                            <label for="unit">Height</label>
+                            <label for="unit">
+                                Height
+                            </label>
+
 
                             <div class="height-controls">
 
-                                <select id="unit" name="unit">
+                                <select
+                                    id="unit"
+                                    name="unit"
+                                >
 
                                     <option value="cm">
                                         cm
@@ -189,6 +493,7 @@
 
                             </div>
 
+
                             <small class="field-hint">
                                 Adult height range: 91.4–274.3 cm
                             </small>
@@ -200,7 +505,10 @@
 
                         <div class="field">
 
-                            <label for="Weight">Weight</label>
+                            <label for="Weight">
+                                Weight
+                            </label>
+
 
                             <div class="input-with-unit">
 
@@ -215,7 +523,9 @@
                                     required
                                 >
 
-                                <span>kg</span>
+                                <span>
+                                    kg
+                                </span>
 
                             </div>
 
@@ -226,13 +536,19 @@
                 </fieldset>
 
 
-                <!-- Activity -->
+                <!-- =================================================
+                     ACTIVITY
+                ================================================== -->
 
                 <fieldset>
 
-                    <legend>Activity &amp; Lifestyle</legend>
+                    <legend>
+                        Activity &amp; Lifestyle
+                    </legend>
+
 
                     <div class="activity-grid">
+
 
                         <label class="choice-card">
 
@@ -243,8 +559,15 @@
                             >
 
                             <span>
-                                <strong>Sedentary</strong>
-                                <small>Little or no exercise</small>
+
+                                <strong>
+                                    Sedentary
+                                </strong>
+
+                                <small>
+                                    Little or no exercise
+                                </small>
+
                             </span>
 
                         </label>
@@ -259,8 +582,15 @@
                             >
 
                             <span>
-                                <strong>Lightly Active</strong>
-                                <small>1–3 days/week</small>
+
+                                <strong>
+                                    Lightly Active
+                                </strong>
+
+                                <small>
+                                    1–3 days/week
+                                </small>
+
                             </span>
 
                         </label>
@@ -277,8 +607,15 @@
                             >
 
                             <span>
-                                <strong>Moderately Active</strong>
-                                <small>3–5 days/week</small>
+
+                                <strong>
+                                    Moderately Active
+                                </strong>
+
+                                <small>
+                                    3–5 days/week
+                                </small>
+
                             </span>
 
                         </label>
@@ -293,8 +630,15 @@
                             >
 
                             <span>
-                                <strong>Very Active</strong>
-                                <small>6–7 days/week</small>
+
+                                <strong>
+                                    Very Active
+                                </strong>
+
+                                <small>
+                                    6–7 days/week
+                                </small>
+
                             </span>
 
                         </label>
@@ -309,8 +653,15 @@
                             >
 
                             <span>
-                                <strong>Extremely Active</strong>
-                                <small>Hard training</small>
+
+                                <strong>
+                                    Extremely Active
+                                </strong>
+
+                                <small>
+                                    Hard training
+                                </small>
+
                             </span>
 
                         </label>
@@ -320,13 +671,19 @@
                 </fieldset>
 
 
-                <!-- Goal -->
+                <!-- =================================================
+                     GOAL
+                ================================================== -->
 
                 <fieldset>
 
-                    <legend>Goal</legend>
+                    <legend>
+                        Goal
+                    </legend>
+
 
                     <div class="goal-grid">
+
 
                         <label class="choice-card compact">
 
@@ -336,7 +693,9 @@
                                 value="maintain"
                             >
 
-                            <span>Maintain Weight</span>
+                            <span>
+                                Maintain Weight
+                            </span>
 
                         </label>
 
@@ -350,7 +709,9 @@
                                 checked
                             >
 
-                            <span>Lose Weight</span>
+                            <span>
+                                Lose Weight
+                            </span>
 
                         </label>
 
@@ -363,7 +724,9 @@
                                 value="gain"
                             >
 
-                            <span>Gain Weight</span>
+                            <span>
+                                Gain Weight
+                            </span>
 
                         </label>
 
@@ -372,7 +735,7 @@
                 </fieldset>
 
 
-                <!-- Validation message -->
+                <!-- Validation -->
 
                 <p
                     id="formMessage"
@@ -406,11 +769,15 @@
             <div class="results-header">
 
                 <div>
-                    <h2>Your Results</h2>
+
+                    <h2>
+                        Your Results
+                    </h2>
 
                     <p>
                         Personalized estimates based on your inputs.
                     </p>
+
                 </div>
 
             </div>
@@ -422,17 +789,25 @@
 
                 <div>
 
-                    <h3>Daily Calories</h3>
+                    <h3>
+                        Daily Calories
+                    </h3>
+
 
                     <div class="calorie-value">
 
-                        <output id="caloriesResult">—</output>
+                        <output id="caloriesResult">
+                            —
+                        </output>
 
-                        <span>kcal/day</span>
+                        <span>
+                            kcal/day
+                        </span>
 
                     </div>
 
                 </div>
+
 
                 <p id="calorieDescription">
                     Calculate your needs to see an estimate.
@@ -441,15 +816,20 @@
             </div>
 
 
-            <!-- Main metrics -->
+            <!-- Metrics -->
 
             <div class="metric-grid">
 
+
                 <div class="metric-card">
 
-                    <h3>BMI</h3>
+                    <h3>
+                        BMI
+                    </h3>
 
-                    <output id="bmiResult">—</output>
+                    <output id="bmiResult">
+                        —
+                    </output>
 
                     <p id="bmiDescription">
                         Body Mass Index
@@ -460,9 +840,13 @@
 
                 <div class="metric-card">
 
-                    <h3>BMI Recommendation</h3>
+                    <h3>
+                        BMI Recommendation
+                    </h3>
 
-                    <output id="bmiRecommendation">—</output>
+                    <output id="bmiRecommendation">
+                        —
+                    </output>
 
                     <p>
                         Adult screening category
@@ -473,15 +857,23 @@
 
                 <div class="metric-card">
 
-                    <h3>Healthy Weight Range</h3>
+                    <h3>
+                        Healthy Weight Range
+                    </h3>
+
 
                     <div class="inline-result">
 
-                        <output id="healthyWeightResult">—</output>
+                        <output id="healthyWeightResult">
+                            —
+                        </output>
 
-                        <span>kg</span>
+                        <span>
+                            kg
+                        </span>
 
                     </div>
+
 
                     <p>
                         BMI 18.5–24.9
@@ -498,7 +890,9 @@
 
                 <div class="results-subheading">
 
-                    <h3>Macronutrients</h3>
+                    <h3>
+                        Macronutrients
+                    </h3>
 
                     <p>
                         Estimated daily targets from your calorie goal.
@@ -509,15 +903,22 @@
 
                 <div class="macros">
 
+
                     <div class="macro-card protein">
 
-                        <span>Protein</span>
+                        <span>
+                            Protein
+                        </span>
 
                         <div>
 
-                            <output id="proteinResult">—</output>
+                            <output id="proteinResult">
+                                —
+                            </output>
 
-                            <small>g</small>
+                            <small>
+                                g
+                            </small>
 
                         </div>
 
@@ -526,13 +927,19 @@
 
                     <div class="macro-card carbs">
 
-                        <span>Carbs</span>
+                        <span>
+                            Carbs
+                        </span>
 
                         <div>
 
-                            <output id="carbsResult">—</output>
+                            <output id="carbsResult">
+                                —
+                            </output>
 
-                            <small>g</small>
+                            <small>
+                                g
+                            </small>
 
                         </div>
 
@@ -541,13 +948,19 @@
 
                     <div class="macro-card fat">
 
-                        <span>Fat</span>
+                        <span>
+                            Fat
+                        </span>
 
                         <div>
 
-                            <output id="fatResult">—</output>
+                            <output id="fatResult">
+                                —
+                            </output>
 
-                            <small>g</small>
+                            <small>
+                                g
+                            </small>
 
                         </div>
 
@@ -558,13 +971,15 @@
             </div>
 
 
-            <!-- Daily targets -->
+            <!-- Daily Targets -->
 
             <div class="daily-targets">
 
                 <div class="results-subheading">
 
-                    <h3>General Daily Targets</h3>
+                    <h3>
+                        General Daily Targets
+                    </h3>
 
                     <p>
                         Reference recommendations, not personalized medical advice.
@@ -575,18 +990,25 @@
 
                 <div class="targets-grid">
 
+
                     <div class="target-card">
 
                         <span>💧</span>
 
                         <div>
-                            <strong>Total Water</strong>
+
+                            <strong>
+                                Total Water
+                            </strong>
 
                             <output id="waterResult">
                                 —
                             </output>
 
-                            <small>food + fluids</small>
+                            <small>
+                                food + fluids
+                            </small>
+
                         </div>
 
                     </div>
@@ -597,13 +1019,19 @@
                         <span>🌾</span>
 
                         <div>
-                            <strong>Fiber</strong>
+
+                            <strong>
+                                Fiber
+                            </strong>
 
                             <output id="fiberResult">
                                 —
                             </output>
 
-                            <small>g/day</small>
+                            <small>
+                                g/day
+                            </small>
+
                         </div>
 
                     </div>
@@ -614,13 +1042,19 @@
                         <span>🚶</span>
 
                         <div>
-                            <strong>Movement</strong>
+
+                            <strong>
+                                Movement
+                            </strong>
 
                             <output id="stepsResult">
                                 —
                             </output>
 
-                            <small>general target</small>
+                            <small>
+                                general target
+                            </small>
+
                         </div>
 
                     </div>
@@ -630,7 +1064,7 @@
             </div>
 
 
-            <!-- Calculation details -->
+            <!-- Calculation Details -->
 
             <details class="calculation-details">
 
@@ -638,21 +1072,45 @@
                     How this estimate is calculated
                 </summary>
 
+
                 <div class="details-content">
 
                     <div>
-                        <span>Resting energy</span>
-                        <strong id="bmrResult">—</strong>
+
+                        <span>
+                            Resting energy
+                        </span>
+
+                        <strong id="bmrResult">
+                            —
+                        </strong>
+
                     </div>
 
-                    <div>
-                        <span>Activity factor</span>
-                        <strong id="activityFactorResult">—</strong>
-                    </div>
 
                     <div>
-                        <span>Goal adjustment</span>
-                        <strong id="goalAdjustmentResult">—</strong>
+
+                        <span>
+                            Activity factor
+                        </span>
+
+                        <strong id="activityFactorResult">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Goal adjustment
+                        </span>
+
+                        <strong id="goalAdjustmentResult">
+                            —
+                        </strong>
+
                     </div>
 
                 </div>
@@ -661,9 +1119,11 @@
 
 
             <p class="results-disclaimer">
+
                 This calculator provides estimates for general education.
                 BMI is a screening measure and calorie needs can vary with
                 body composition, health status, medications, and other factors.
+
             </p>
 
         </section>
@@ -671,10 +1131,14 @@
     </main>
 
 
+    <!-- =========================================================
+         FOOTER
+    ========================================================== -->
+
     <footer>
 
         <p>
-            Daily Nutrition Calculator · Personal Demo Project
+            Daily Nutrition Calculator · Built with HTML, CSS &amp; JavaScript
         </p>
 
     </footer>
