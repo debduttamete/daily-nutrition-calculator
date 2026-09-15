@@ -1,119 +1,184 @@
-// ============================================================
-// DAILY NUTRITION CALCULATOR
-// V1
-// ============================================================
-
-
-// ============================================================
-// DOM REFERENCES
-// ============================================================
-
 const form = document.getElementById("nutritionForm");
 
 const ageInput = document.getElementById("Age");
 const weightInput = document.getElementById("Weight");
 
 const unitSelect = document.getElementById("unit");
+const centimetersInput = document.getElementById("Centimeters");
+const feetInput = document.getElementById("Feet");
+const inchesInput = document.getElementById("Inches");
 
-const centimetersInput =
-    document.getElementById("Centimeters");
+const formMessage = document.getElementById("formMessage");
+const resultsCard = document.querySelector(".results-card");
 
-const feetInput =
-    document.getElementById("Feet");
+const caloriesResult = document.getElementById("caloriesResult");
+const calorieDescription = document.getElementById("calorieDescription");
 
-const inchesInput =
-    document.getElementById("Inches");
-
-
-const formMessage =
-    document.getElementById("formMessage");
-
-
-/* Results */
-
-const resultsCard =
-    document.querySelector(".results-card");
-
-const caloriesResult =
-    document.getElementById("caloriesResult");
-
-const calorieDescription =
-    document.getElementById("calorieDescription");
-
-const bmiResult =
-    document.getElementById("bmiResult");
-
-const bmiRecommendation =
-    document.getElementById("bmiRecommendation");
-
-const bmiDescription =
-    document.getElementById("bmiDescription");
+const bmiResult = document.getElementById("bmiResult");
+const bmiRecommendation = document.getElementById("bmiRecommendation");
+const bmiDescription = document.getElementById("bmiDescription");
 
 const healthyWeightResult =
     document.getElementById("healthyWeightResult");
 
-const proteinResult =
-    document.getElementById("proteinResult");
+const proteinResult = document.getElementById("proteinResult");
+const carbsResult = document.getElementById("carbsResult");
+const fatResult = document.getElementById("fatResult");
 
-const carbsResult =
-    document.getElementById("carbsResult");
+const waterResult = document.getElementById("waterResult");
+const fiberResult = document.getElementById("fiberResult");
+const stepsResult = document.getElementById("stepsResult");
 
-const fatResult =
-    document.getElementById("fatResult");
-
-const waterResult =
-    document.getElementById("waterResult");
-
-const fiberResult =
-    document.getElementById("fiberResult");
-
-const stepsResult =
-    document.getElementById("stepsResult");
-
-
-/* Calculation details */
-
-const bmrResult =
-    document.getElementById("bmrResult");
-
+const bmrResult = document.getElementById("bmrResult");
 const activityFactorResult =
     document.getElementById("activityFactorResult");
 
 const goalAdjustmentResult =
     document.getElementById("goalAdjustmentResult");
 
+const calculationModeInputs =
+    document.querySelectorAll('input[name="calculationMode"]');
 
-// ============================================================
-// HEIGHT INPUT SWITCHER
-// ============================================================
+const trainerSettings =
+    document.getElementById("trainerSettings");
 
-function updateHeightInputs() {
+const trainerActivityMultiplier =
+    document.getElementById("trainerActivityMultiplier");
 
-    const usingCentimeters =
-        unitSelect.value === "cm";
+const trainerAdjustmentType =
+    document.getElementById("trainerAdjustmentType");
+
+const trainerAdjustmentPercent =
+    document.getElementById("trainerAdjustmentPercent");
+
+const trainerProtein =
+    document.getElementById("trainerProtein");
+
+const trainerFat =
+    document.getElementById("trainerFat");
+
+const activityInputs =
+    document.querySelectorAll('input[name="Activity"]');
+
+const goalInputs =
+    document.querySelectorAll('input[name="Goal"]');
 
 
-    centimetersInput.hidden =
-        !usingCentimeters;
+// --------------------------------------------------
+// HELPER FUNCTIONS
+// --------------------------------------------------
 
-    feetInput.hidden =
-        usingCentimeters;
+function getSelectedRadio(name) {
+    const selected = document.querySelector(
+        `input[name="${name}"]:checked`
+    );
 
-    inchesInput.hidden =
-        usingCentimeters;
+    return selected ? selected.value : null;
+}
 
 
-    // Clear the inactive fields.
-    // This prevents stale values being accidentally submitted.
+// --------------------------------------------------
+// CALCULATION MODE
+// --------------------------------------------------
 
-    if (usingCentimeters) {
+function updateModeFields() {
+    const calculationMode =
+        getSelectedRadio("calculationMode");
 
-        feetInput.value = "";
-        inchesInput.value = "";
+    const trainerMode =
+        calculationMode === "trainer";
+
+    // Show / hide Trainer Settings
+    trainerSettings.hidden = !trainerMode;
+
+    // Disable normal Activity + Goal controls
+    // while Trainer Mode is active.
+    activityInputs.forEach(function (input) {
+        input.disabled = trainerMode;
+    });
+
+    goalInputs.forEach(function (input) {
+        input.disabled = trainerMode;
+    });
+}
+
+
+calculationModeInputs.forEach(function (input) {
+    input.addEventListener("change", function () {
+        updateModeFields();
+    });
+});
+
+
+// Set correct state when page loads
+updateModeFields();
+
+
+// --------------------------------------------------
+// TRAINER CALORIE ADJUSTMENT
+// --------------------------------------------------
+
+function updateTrainerAdjustment() {
+
+    if (trainerAdjustmentType.value === "maintain") {
+
+        trainerAdjustmentPercent.value = 0;
+
+        trainerAdjustmentPercent.disabled = true;
 
     } else {
 
-        centimetersInput.value = "";
+        trainerAdjustmentPercent.disabled = false;
+
+        if (trainerAdjustmentPercent.value === "0") {
+
+            if (
+                trainerAdjustmentType.value === "deficit"
+            ) {
+                trainerAdjustmentPercent.value = 15;
+            } else {
+                trainerAdjustmentPercent.value = 10;
+            }
+        }
+    }
+}
+
+
+trainerAdjustmentType.addEventListener(
+    "change",
+    updateTrainerAdjustment
+);
+
+updateTrainerAdjustment();
+
+
+// --------------------------------------------------
+// HEIGHT UNIT SWITCHING
+// --------------------------------------------------
+
+function updateHeightInputs() {
+
+    if (unitSelect.value === "cm") {
+
+        centimetersInput.disabled = false;
+        centimetersInput.required = true;
+
+        feetInput.disabled = true;
+        feetInput.required = false;
+
+        inchesInput.disabled = true;
+        inchesInput.required = false;
+
+    } else {
+
+        centimetersInput.disabled = true;
+        centimetersInput.required = false;
+
+        feetInput.disabled = false;
+        feetInput.required = true;
+
+        inchesInput.disabled = false;
+        inchesInput.required = true;
     }
 }
 
@@ -123,78 +188,44 @@ unitSelect.addEventListener(
     updateHeightInputs
 );
 
-
-// Set initial state.
 updateHeightInputs();
 
 
-// ============================================================
-// RADIO HELPER
-// ============================================================
-
-function getSelectedRadio(name) {
-
-    const selected =
-        document.querySelector(
-            `input[name="${name}"]:checked`
-        );
-
-    return selected ? selected.value : null;
-}
-
-
-// ============================================================
+// --------------------------------------------------
 // HEIGHT CONVERSION
-// ============================================================
+// --------------------------------------------------
 
-function getHeightInCm() {
+function getHeightInCentimeters() {
 
     if (unitSelect.value === "cm") {
-
-        return Number(
-            centimetersInput.value
-        );
+        return Number(centimetersInput.value);
     }
 
-
-    const feet =
-        Number(feetInput.value);
-
-    const inches =
-        Number(inchesInput.value);
-
+    const feet = Number(feetInput.value);
+    const inches = Number(inchesInput.value);
 
     return (
-        feet * 30.48
-    ) + (
+        feet * 30.48 +
         inches * 2.54
     );
 }
 
 
-// ============================================================
+// --------------------------------------------------
 // BMI
-// ============================================================
+// --------------------------------------------------
 
-function calculateBMI(
-    weight,
-    heightInCm
-) {
+function calculateBMI(weight, heightCm) {
 
-    const heightInMeters =
-        heightInCm / 100;
-
+    const heightMeters =
+        heightCm / 100;
 
     return (
         weight /
-        (heightInMeters * heightInMeters)
+        (heightMeters * heightMeters)
     );
 }
 
-
-// ============================================================
-// BMI CATEGORY
-// ============================================================
 
 function getBMICategory(bmi) {
 
@@ -203,7 +234,7 @@ function getBMICategory(bmi) {
     }
 
     if (bmi < 25) {
-        return "Healthy weight";
+        return "Healthy Weight";
     }
 
     if (bmi < 30) {
@@ -211,126 +242,141 @@ function getBMICategory(bmi) {
     }
 
     if (bmi < 35) {
-        return "Obesity — Class 1";
+        return "Obesity Class 1";
     }
 
     if (bmi < 40) {
-        return "Obesity — Class 2";
+        return "Obesity Class 2";
     }
 
-    return "Obesity — Class 3";
+    return "Obesity Class 3";
 }
 
 
-// ============================================================
+function getBMIRecommendation(bmi) {
+
+    if (bmi < 18.5) {
+        return "Consider gradually increasing your calorie and nutrient intake.";
+    }
+
+    if (bmi < 25) {
+        return "Your BMI is within the healthy range.";
+    }
+
+    if (bmi < 30) {
+        return "A gradual reduction in body weight may improve health outcomes.";
+    }
+
+    if (bmi < 35) {
+        return "Consider working toward gradual weight reduction.";
+    }
+
+    if (bmi < 40) {
+        return "Consider discussing a structured weight-management plan with a healthcare professional.";
+    }
+
+    return "Consider discussing a structured weight-management plan with a healthcare professional.";
+}
+
+
+// --------------------------------------------------
 // HEALTHY WEIGHT RANGE
-// ============================================================
+// --------------------------------------------------
 
-function getHealthyWeightRange(
-    heightInCm
-) {
+function calculateHealthyWeightRange(heightCm) {
 
-    const heightInMeters =
-        heightInCm / 100;
+    const heightMeters =
+        heightCm / 100;
 
-
-    const minimum =
+    const minimumWeight =
         18.5 *
-        heightInMeters *
-        heightInMeters;
+        heightMeters *
+        heightMeters;
 
-
-    const maximum =
+    const maximumWeight =
         24.9 *
-        heightInMeters *
-        heightInMeters;
-
+        heightMeters *
+        heightMeters;
 
     return {
-        minimum,
-        maximum
+        minimum: minimumWeight,
+        maximum: maximumWeight
     };
 }
 
 
-// ============================================================
-// MIFFLIN-ST JEOR
-// ============================================================
+// --------------------------------------------------
+// BMR
+// --------------------------------------------------
 
 function calculateBMR(
-    age,
-    gender,
     weight,
-    heightInCm
+    heightCm,
+    age,
+    gender
 ) {
 
     if (gender === "Male") {
 
         return (
             10 * weight +
-            6.25 * heightInCm -
+            6.25 * heightCm -
             5 * age +
             5
         );
-
     }
-
 
     return (
         10 * weight +
-        6.25 * heightInCm -
+        6.25 * heightCm -
         5 * age -
         161
     );
 }
 
 
-// ============================================================
-// ACTIVITY FACTORS
-// ============================================================
+// --------------------------------------------------
+// ACTIVITY FACTOR
+// --------------------------------------------------
 
-const activityFactors = {
+function getActivityFactor(activity) {
 
-    sedentary: 1.20,
+    const activityFactors = {
 
-    lightly_active: 1.375,
+        sedentary: 1.20,
 
-    moderately_active: 1.55,
+        lightly_active: 1.375,
 
-    very_active: 1.725,
+        moderately_active: 1.55,
 
-    extremely_active: 1.90
-};
+        very_active: 1.725,
 
+        extremely_active: 1.90
+    };
 
-function getActivityFactor(
-    activity
-) {
-
-    return activityFactors[activity];
+    return (
+        activityFactors[activity] ||
+        1.20
+    );
 }
 
 
-// ============================================================
+// --------------------------------------------------
 // MAINTENANCE CALORIES
-// ============================================================
+// --------------------------------------------------
 
 function calculateMaintenanceCalories(
     bmr,
-    activity
+    activityFactor
 ) {
-
-    const activityFactor =
-        getActivityFactor(activity);
-
 
     return bmr * activityFactor;
 }
 
 
-// ============================================================
-// GOAL CALORIES
-// ============================================================
+// --------------------------------------------------
+// STANDARD MODE GOAL CALORIES
+// --------------------------------------------------
 
 function calculateGoalCalories(
     maintenanceCalories,
@@ -338,33 +384,17 @@ function calculateGoalCalories(
     gender
 ) {
 
-    /*
-        For V1:
-
-        Maintain:
-            100% of maintenance
-
-        Lose:
-            approximately 15% deficit
-            capped at 750 kcal
-
-        Gain:
-            approximately 10% surplus
-    */
-
-
+    // Maintain
     if (goal === "maintain") {
 
         return {
-            calories:
-                maintenanceCalories,
-
-            adjustment:
-                0
+            calories: maintenanceCalories,
+            adjustment: 0
         };
     }
 
 
+    // Lose
     if (goal === "lose") {
 
         const deficit =
@@ -373,15 +403,10 @@ function calculateGoalCalories(
                 750
             );
 
-
-        // Guard against an implausibly low
-        // calorie target.
-
         const minimumCalories =
             gender === "Male"
                 ? 1500
                 : 1200;
-
 
         const calories =
             Math.max(
@@ -389,95 +414,134 @@ function calculateGoalCalories(
                 minimumCalories
             );
 
-
         return {
-            calories,
+            calories: calories,
             adjustment:
-                calories -
-                maintenanceCalories
+                calories - maintenanceCalories
         };
     }
 
 
-    // Gain weight
-
+    // Gain
     const surplus =
         maintenanceCalories * 0.10;
-
 
     return {
         calories:
             maintenanceCalories + surplus,
 
-        adjustment:
-            surplus
+        adjustment: surplus
     };
 }
 
 
-// ============================================================
-// MACRONUTRIENTS
-// ============================================================
+// --------------------------------------------------
+// TRAINER MODE GOAL CALORIES
+// --------------------------------------------------
+
+function calculateTrainerGoalCalories(
+    maintenanceCalories,
+    adjustmentType,
+    adjustmentPercent,
+    gender
+) {
+
+    // Maintain
+    if (adjustmentType === "maintain") {
+
+        return {
+            calories: maintenanceCalories,
+            adjustment: 0
+        };
+    }
+
+
+    const percentage =
+        adjustmentPercent / 100;
+
+
+    // Deficit
+    if (adjustmentType === "deficit") {
+
+        const deficit =
+            maintenanceCalories * percentage;
+
+        const minimumCalories =
+            gender === "Male"
+                ? 1500
+                : 1200;
+
+        const calories =
+            Math.max(
+                maintenanceCalories - deficit,
+                minimumCalories
+            );
+
+        return {
+            calories: calories,
+
+            adjustment:
+                calories - maintenanceCalories
+        };
+    }
+
+
+    // Surplus
+    if (adjustmentType === "surplus") {
+
+        const surplus =
+            maintenanceCalories * percentage;
+
+        return {
+            calories:
+                maintenanceCalories + surplus,
+
+            adjustment: surplus
+        };
+    }
+
+
+    return {
+        calories: maintenanceCalories,
+        adjustment: 0
+    };
+}
+
+
+// --------------------------------------------------
+// MACROS
+// --------------------------------------------------
 
 function calculateMacros(
     calories,
     weight,
-    goal
+    proteinPerKg,
+    fatPercent
 ) {
-
-    /*
-        Protein:
-
-        Maintain → 1.6 g/kg
-        Gain    → 1.6 g/kg
-        Lose    → 1.8 g/kg
-
-        These values stay inside
-        commonly used ranges for
-        exercising adults.
-    */
-
-
-    const proteinPerKg =
-        goal === "lose"
-            ? 1.8
-            : 1.6;
-
 
     const protein =
         weight * proteinPerKg;
 
-
     const proteinCalories =
         protein * 4;
 
-
-    /*
-        Fat is set to 25% of calories.
-
-        Remaining energy goes to carbs.
-    */
-
     const fatCalories =
-        calories * 0.25;
-
+        calories *
+        (fatPercent / 100);
 
     const fat =
         fatCalories / 9;
-
 
     const remainingCalories =
         calories -
         proteinCalories -
         fatCalories;
 
-
     const carbs =
         Math.max(
             remainingCalories / 4,
             0
         );
-
 
     return {
         protein,
@@ -487,33 +551,14 @@ function calculateMacros(
 }
 
 
-// ============================================================
+// --------------------------------------------------
 // DAILY TARGETS
-// ============================================================
+// --------------------------------------------------
 
-function calculateDailyTargets(
-    age,
+function calculateWater(
     gender,
-    activity,
-    calories
+    activity
 ) {
-
-    /*
-        Water:
-
-        These are total-water reference values,
-        meaning water from beverages + food,
-        not simply plain drinking water.
-
-        Adult reference values from
-        National Academies are roughly:
-
-        Men    → 3.7 L/day
-        Women  → 2.7 L/day
-
-        We add a small activity adjustment
-        for very/highly active users.
-    */
 
     let water =
         gender === "Male"
@@ -529,206 +574,49 @@ function calculateDailyTargets(
         water += 0.3;
     }
 
-
-    /*
-        Fiber:
-
-        Use roughly 14 g per 1,000 kcal,
-        but never below 25 g.
-    */
-
-    const fiber =
-        Math.max(
-            25,
-            calories * 0.014
-        );
+    return water;
+}
 
 
-    /*
-        Steps:
+function calculateFiber(calories) {
 
-        This is intentionally presented as
-        a general movement target, not a
-        medical prescription.
-    */
-
-    let steps = "7–10k";
-
-    if (activity === "sedentary") {
-        steps = "7–8k";
-    }
-
-    if (activity === "lightly_active") {
-        steps = "7–10k";
-    }
-
-    if (activity === "moderately_active") {
-        steps = "8–10k";
-    }
-
-    if (activity === "very_active") {
-        steps = "8–12k";
-    }
-
-    if (activity === "extremely_active") {
-        steps = "8–12k";
-    }
+    return Math.max(
+        25,
+        calories * 0.014
+    );
+}
 
 
-    return {
-        water,
-        fiber,
-        steps
+function getStepRecommendation(activity) {
+
+    const stepRecommendations = {
+
+        sedentary:
+            "7,000–8,000 steps",
+
+        lightly_active:
+            "7,000–10,000 steps",
+
+        moderately_active:
+            "8,000–10,000 steps",
+
+        very_active:
+            "8,000–12,000 steps",
+
+        extremely_active:
+            "8,000–12,000 steps"
     };
-}
 
-
-// ============================================================
-// FORM VALIDATION
-// ============================================================
-
-function showError(message) {
-
-    formMessage.textContent =
-        message;
-
-    formMessage.classList.add(
-        "show"
+    return (
+        stepRecommendations[activity] ||
+        "7,000–10,000 steps"
     );
 }
 
 
-function clearError() {
-
-    formMessage.textContent = "";
-
-    formMessage.classList.remove(
-        "show"
-    );
-}
-
-
-// ============================================================
-// DISPLAY RESULTS
-// ============================================================
-
-function displayResults(
-    bmi,
-    bmiCategory,
-    healthyRange,
-    dailyCalories,
-    macros,
-    targets,
-    bmr,
-    activityFactor,
-    goalAdjustment
-) {
-
-    caloriesResult.textContent =
-        Math.round(
-            dailyCalories
-        ).toLocaleString();
-
-
-    calorieDescription.textContent =
-        "Estimated daily energy target based on your activity and goal.";
-
-
-    bmiResult.textContent =
-        bmi.toFixed(1);
-
-
-    bmiRecommendation.textContent =
-        bmiCategory;
-
-
-    bmiDescription.textContent =
-        "Adult BMI screening category";
-
-
-    healthyWeightResult.textContent =
-        `${healthyRange.minimum.toFixed(1)} – ${healthyRange.maximum.toFixed(1)}`;
-
-
-    proteinResult.textContent =
-        Math.round(
-            macros.protein
-        );
-
-
-    carbsResult.textContent =
-        Math.round(
-            macros.carbs
-        );
-
-
-    fatResult.textContent =
-        Math.round(
-            macros.fat
-        );
-
-
-    waterResult.textContent =
-        `${targets.water.toFixed(1)} L`;
-
-
-    fiberResult.textContent =
-        `${Math.round(targets.fiber)} g`;
-
-
-    stepsResult.textContent =
-        targets.steps;
-
-
-    bmrResult.textContent =
-        `${Math.round(bmr)} kcal/day`;
-
-
-    activityFactorResult.textContent =
-        `× ${activityFactor}`;
-
-
-    if (goalAdjustment === 0) {
-
-        goalAdjustmentResult.textContent =
-            "Maintenance";
-
-    } else if (goalAdjustment < 0) {
-
-        goalAdjustmentResult.textContent =
-            `${Math.round(
-                goalAdjustment
-            )} kcal`;
-
-    } else {
-
-        goalAdjustmentResult.textContent =
-            `+${Math.round(
-                goalAdjustment
-            )} kcal`;
-    }
-
-
-    resultsCard.classList.remove(
-        "has-results"
-    );
-
-
-    // Force a reflow so the animation
-    // can replay on every calculation.
-
-    void resultsCard.offsetWidth;
-
-
-    resultsCard.classList.add(
-        "has-results"
-    );
-}
-
-
-// ============================================================
-// FORM SUBMISSION
-// ============================================================
+// --------------------------------------------------
+// FORM SUBMIT
+// --------------------------------------------------
 
 form.addEventListener(
     "submit",
@@ -736,228 +624,619 @@ form.addEventListener(
 
         event.preventDefault();
 
-        clearError();
+
+        // Clear previous message
+        formMessage.textContent = "";
+
+        formMessage.className =
+            "form-message";
 
 
-        // ----------------------------------------------------
-        // READ INPUTS
-        // ----------------------------------------------------
+        // ------------------------------------------
+        // BASIC INPUTS
+        // ------------------------------------------
 
         const age =
             Number(ageInput.value);
 
-
         const weight =
             Number(weightInput.value);
 
-
         const gender =
-            getSelectedRadio(
-                "Gender"
-            );
+            getSelectedRadio("Gender");
 
+        const calculationMode =
+            getSelectedRadio("calculationMode");
+
+        const heightCm =
+            getHeightInCentimeters();
+
+
+        // ------------------------------------------
+        // STANDARD-ONLY INPUTS
+        // ------------------------------------------
 
         const activity =
-            getSelectedRadio(
-                "Activity"
-            );
-
+            getSelectedRadio("Activity");
 
         const goal =
-            getSelectedRadio(
-                "Goal"
-            );
+            getSelectedRadio("Goal");
 
 
-        const heightInCm =
-            getHeightInCm();
-
-
-        // ----------------------------------------------------
-        // VALIDATE AGE
-        // ----------------------------------------------------
+        // ------------------------------------------
+        // BASIC VALIDATION
+        // ------------------------------------------
 
         if (
-            !Number.isFinite(age) ||
+            !age ||
             age < 18 ||
-            age > 90
+            age > 80
         ) {
 
-            showError(
-                "Enter an age between 18 and 90."
-            );
+            formMessage.textContent =
+                "Please enter an age between 18 and 80.";
 
-            ageInput.focus();
+            formMessage.classList.add("error");
 
             return;
         }
 
 
-        // ----------------------------------------------------
-        // VALIDATE GENDER
-        // ----------------------------------------------------
+        if (
+            !weight ||
+            weight <= 0
+        ) {
+
+            formMessage.textContent =
+                "Please enter a valid weight.";
+
+            formMessage.classList.add("error");
+
+            return;
+        }
+
 
         if (!gender) {
 
-            showError(
-                "Select your gender."
-            );
+            formMessage.textContent =
+                "Please select your gender.";
+
+            formMessage.classList.add("error");
 
             return;
         }
 
-
-        // ----------------------------------------------------
-        // VALIDATE WEIGHT
-        // ----------------------------------------------------
 
         if (
-            !Number.isFinite(weight) ||
-            weight < 25 ||
-            weight > 450
+            !heightCm ||
+            heightCm <= 0
         ) {
 
-            showError(
-                "Enter a realistic weight between 25 and 450 kg."
-            );
+            formMessage.textContent =
+                "Please enter a valid height.";
 
-            weightInput.focus();
+            formMessage.classList.add("error");
 
             return;
         }
 
 
-        // ----------------------------------------------------
-        // VALIDATE HEIGHT
-        // ----------------------------------------------------
+        // ------------------------------------------
+        // STANDARD MODE VALIDATION
+        // ------------------------------------------
 
         if (
-            !Number.isFinite(heightInCm) ||
-            heightInCm < 91.44 ||
-            heightInCm > 274.32
+            calculationMode !== "trainer"
         ) {
 
-            showError(
-                "Enter a height between 91.4 and 274.3 cm."
-            );
+            if (!activity) {
 
-            return;
+                formMessage.textContent =
+                    "Please select your activity level.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
+
+
+            if (!goal) {
+
+                formMessage.textContent =
+                    "Please select your goal.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
         }
 
 
-        // ----------------------------------------------------
-        // VALIDATE ACTIVITY
-        // ----------------------------------------------------
-
-        if (!activity) {
-
-            showError(
-                "Select an activity level."
-            );
-
-            return;
-        }
-
-
-        // ----------------------------------------------------
-        // VALIDATE GOAL
-        // ----------------------------------------------------
-
-        if (!goal) {
-
-            showError(
-                "Select your goal."
-            );
-
-            return;
-        }
-
-
-        // ----------------------------------------------------
-        // CALCULATIONS
-        // ----------------------------------------------------
+        // ------------------------------------------
+        // BMI
+        // ------------------------------------------
 
         const bmi =
             calculateBMI(
                 weight,
-                heightInCm
+                heightCm
             );
-
 
         const bmiCategory =
-            getBMICategory(
-                bmi
+            getBMICategory(bmi);
+
+        const bmiRecommendationText =
+            getBMIRecommendation(bmi);
+
+
+        // ------------------------------------------
+        // HEALTHY WEIGHT
+        // ------------------------------------------
+
+        const healthyWeight =
+            calculateHealthyWeightRange(
+                heightCm
             );
 
 
-        const healthyRange =
-            getHealthyWeightRange(
-                heightInCm
-            );
-
+        // ------------------------------------------
+        // BMR
+        // ------------------------------------------
 
         const bmr =
             calculateBMR(
-                age,
-                gender,
                 weight,
-                heightInCm
-            );
-
-
-        const activityFactor =
-            getActivityFactor(
-                activity
-            );
-
-
-        const maintenanceCalories =
-            calculateMaintenanceCalories(
-                bmr,
-                activity
-            );
-
-
-        const goalCalories =
-            calculateGoalCalories(
-                maintenanceCalories,
-                goal,
+                heightCm,
+                age,
                 gender
             );
 
 
-        const macros =
-            calculateMacros(
-                goalCalories.calories,
-                weight,
-                goal
+        // ------------------------------------------
+        // ACTIVITY FACTOR
+        // ------------------------------------------
+
+        let activityFactor;
+
+
+        if (
+            calculationMode === "trainer"
+        ) {
+
+            activityFactor =
+                Number(
+                    trainerActivityMultiplier.value
+                );
+
+
+            if (
+                !activityFactor ||
+                activityFactor < 1 ||
+                activityFactor > 2.5
+            ) {
+
+                formMessage.textContent =
+                    "Trainer activity multiplier must be between 1.00 and 2.50.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
+
+        } else {
+
+            activityFactor =
+                getActivityFactor(activity);
+        }
+
+
+        // ------------------------------------------
+        // MAINTENANCE CALORIES
+        // ------------------------------------------
+
+        const maintenanceCalories =
+            calculateMaintenanceCalories(
+                bmr,
+                activityFactor
             );
 
 
-        const targets =
-            calculateDailyTargets(
-                age,
-                gender,
-                activity,
+        // ------------------------------------------
+        // GOAL + MACROS
+        // ------------------------------------------
+
+        let goalCalories;
+        let macros;
+
+
+        // ==========================================
+        // TRAINER MODE
+        // ==========================================
+
+        if (
+            calculationMode === "trainer"
+        ) {
+
+            const adjustmentType =
+                trainerAdjustmentType.value;
+
+            const adjustmentPercent =
+                Number(
+                    trainerAdjustmentPercent.value
+                );
+
+            const proteinPerKg =
+                Number(
+                    trainerProtein.value
+                );
+
+            const fatPercent =
+                Number(
+                    trainerFat.value
+                );
+
+
+            // Trainer adjustment validation
+
+            if (
+                adjustmentPercent < 0 ||
+                adjustmentPercent > 50
+            ) {
+
+                formMessage.textContent =
+                    "Trainer calorie adjustment must be between 0% and 50%.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
+
+
+            // Trainer protein validation
+
+            if (
+                !proteinPerKg ||
+                proteinPerKg < 0.8 ||
+                proteinPerKg > 3.5
+            ) {
+
+                formMessage.textContent =
+                    "Trainer protein target must be between 0.8 and 3.5 g/kg.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
+
+
+            // Trainer fat validation
+
+            if (
+                !fatPercent ||
+                fatPercent < 15 ||
+                fatPercent > 50
+            ) {
+
+                formMessage.textContent =
+                    "Trainer fat target must be between 15% and 50%.";
+
+                formMessage.classList.add("error");
+
+                return;
+            }
+
+
+            // Trainer calorie target
+
+            goalCalories =
+                calculateTrainerGoalCalories(
+                    maintenanceCalories,
+                    adjustmentType,
+                    adjustmentPercent,
+                    gender
+                );
+
+
+            // Trainer macros
+
+            macros =
+                calculateMacros(
+                    goalCalories.calories,
+                    weight,
+                    proteinPerKg,
+                    fatPercent
+                );
+
+
+        // ==========================================
+        // STANDARD MODE
+        // ==========================================
+
+        } else {
+
+            goalCalories =
+                calculateGoalCalories(
+                    maintenanceCalories,
+                    goal,
+                    gender
+                );
+
+
+            const proteinPerKg =
+                goal === "lose"
+                    ? 1.8
+                    : 1.6;
+
+
+            macros =
+                calculateMacros(
+                    goalCalories.calories,
+                    weight,
+                    proteinPerKg,
+                    25
+                );
+        }
+
+
+        // ------------------------------------------
+        // DAILY TARGETS
+        // ------------------------------------------
+
+        let water;
+        let steps;
+
+
+        if (
+            calculationMode === "trainer"
+        ) {
+
+            // Trainer mode does not use the
+            // standard activity multiplier
+            // for water calculation.
+
+            water =
+                gender === "Male"
+                    ? 3.7
+                    : 2.7;
+
+
+            // Keep the client's previously
+            // selected activity as an informational
+            // step recommendation only.
+
+            const selectedActivity =
+                activity ||
+                "moderately_active";
+
+            steps =
+                getStepRecommendation(
+                    selectedActivity
+                );
+
+        } else {
+
+            water =
+                calculateWater(
+                    gender,
+                    activity
+                );
+
+            steps =
+                getStepRecommendation(
+                    activity
+                );
+        }
+
+
+        const fiber =
+            calculateFiber(
                 goalCalories.calories
             );
 
 
-        // ----------------------------------------------------
-        // DISPLAY
-        // ----------------------------------------------------
+        // ------------------------------------------
+        // DISPLAY CALORIES
+        // ------------------------------------------
 
-        displayResults(
-            bmi,
-            bmiCategory,
-            healthyRange,
-            goalCalories.calories,
-            macros,
-            targets,
-            bmr,
-            activityFactor,
-            goalCalories.adjustment
+        caloriesResult.textContent =
+            `${Math.round(goalCalories.calories)} kcal`;
+
+
+        if (
+            calculationMode === "trainer"
+        ) {
+
+            calorieDescription.textContent =
+                "Customized trainer target based on your selected settings.";
+
+        } else {
+
+            if (goal === "maintain") {
+
+                calorieDescription.textContent =
+                    "Estimated calories to maintain your current weight.";
+
+            } else if (goal === "lose") {
+
+                calorieDescription.textContent =
+                    "Estimated daily calories for gradual weight loss.";
+
+            } else {
+
+                calorieDescription.textContent =
+                    "Estimated daily calories for gradual weight gain.";
+            }
+        }
+
+
+        // ------------------------------------------
+        // DISPLAY BMI
+        // ------------------------------------------
+
+        bmiResult.textContent =
+            bmi.toFixed(1);
+
+        bmiRecommendation.textContent =
+            bmiCategory;
+
+        bmiDescription.textContent =
+            bmiRecommendationText;
+
+
+        // ------------------------------------------
+        // DISPLAY HEALTHY WEIGHT
+        // ------------------------------------------
+
+        healthyWeightResult.textContent =
+            `${healthyWeight.minimum.toFixed(1)}–${healthyWeight.maximum.toFixed(1)} kg`;
+
+
+        // ------------------------------------------
+        // DISPLAY MACROS
+        // ------------------------------------------
+
+        proteinResult.textContent =
+            `${Math.round(macros.protein)} g`;
+
+        carbsResult.textContent =
+            `${Math.round(macros.carbs)} g`;
+
+        fatResult.textContent =
+            `${Math.round(macros.fat)} g`;
+
+
+        // ------------------------------------------
+        // DISPLAY DAILY TARGETS
+        // ------------------------------------------
+
+        waterResult.textContent =
+            `${water.toFixed(1)} L`;
+
+        fiberResult.textContent =
+            `${Math.round(fiber)} g`;
+
+        stepsResult.textContent =
+            steps;
+
+
+        // ------------------------------------------
+        // DISPLAY CALCULATION DETAILS
+        // ------------------------------------------
+
+        bmrResult.textContent =
+            `${Math.round(bmr)} kcal`;
+
+        activityFactorResult.textContent =
+            activityFactor.toFixed(2);
+
+
+        const adjustment =
+            goalCalories.adjustment;
+
+
+        if (adjustment === 0) {
+
+            goalAdjustmentResult.textContent =
+                "0 kcal";
+
+        } else if (adjustment < 0) {
+
+            goalAdjustmentResult.textContent =
+                `${Math.round(adjustment)} kcal`;
+
+        } else {
+
+            goalAdjustmentResult.textContent =
+                `+${Math.round(adjustment)} kcal`;
+        }
+
+
+        // ------------------------------------------
+        // SHOW RESULTS
+        // ------------------------------------------
+
+        resultsCard.hidden = false;
+
+        resultsCard.classList.remove(
+            "result-reveal"
         );
 
+        // Restart animation
+        void resultsCard.offsetWidth;
+
+        resultsCard.classList.add(
+            "result-reveal"
+        );
+
+        resultsCard.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+);
+
+
+// --------------------------------------------------
+// DARK MODE
+// --------------------------------------------------
+
+const themeToggle =
+    document.getElementById("themeToggle");
+
+const html =
+    document.documentElement;
+
+const savedTheme =
+    localStorage.getItem("theme");
+
+
+if (savedTheme) {
+    html.dataset.theme =
+        savedTheme;
+}
+
+
+if (
+    html.dataset.theme === "dark"
+) {
+
+    themeToggle.textContent =
+        "🌙 Dark";
+
+} else {
+
+    themeToggle.textContent =
+        "☀️ Light";
+}
+
+
+themeToggle.addEventListener(
+    "click",
+    function () {
+
+        if (
+            html.dataset.theme === "dark"
+        ) {
+
+            html.dataset.theme =
+                "light";
+
+            themeToggle.textContent =
+                "☀️ Light";
+
+        } else {
+
+            html.dataset.theme =
+                "dark";
+
+            themeToggle.textContent =
+                "🌙 Dark";
+        }
+
+
+        localStorage.setItem(
+            "theme",
+            html.dataset.theme
+        );
     }
 );
