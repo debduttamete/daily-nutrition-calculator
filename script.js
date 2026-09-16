@@ -151,7 +151,6 @@ trainerAdjustmentType.addEventListener(
 
 updateTrainerAdjustment();
 
-
 // --------------------------------------------------
 // HEIGHT UNIT SWITCHING
 // --------------------------------------------------
@@ -160,23 +159,29 @@ function updateHeightInputs() {
 
     if (unitSelect.value === "cm") {
 
+        centimetersInput.hidden = false;
         centimetersInput.disabled = false;
         centimetersInput.required = true;
 
+        feetInput.hidden = true;
         feetInput.disabled = true;
         feetInput.required = false;
 
+        inchesInput.hidden = true;
         inchesInput.disabled = true;
         inchesInput.required = false;
 
     } else {
 
+        centimetersInput.hidden = true;
         centimetersInput.disabled = true;
         centimetersInput.required = false;
 
+        feetInput.hidden = false;
         feetInput.disabled = false;
         feetInput.required = true;
 
+        inchesInput.hidden = false;
         inchesInput.disabled = false;
         inchesInput.required = true;
     }
@@ -189,8 +194,6 @@ unitSelect.addEventListener(
 );
 
 updateHeightInputs();
-
-
 // --------------------------------------------------
 // HEIGHT CONVERSION
 // --------------------------------------------------
