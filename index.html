@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description"
-        content="Estimate BMI, daily calorie needs, healthy weight range, and macronutrients.">
+    <meta name="description" content="Estimate BMI, daily calorie needs, healthy weight range, and macronutrients.">
 
     <title>Daily Nutrition Calculator</title>
 
@@ -77,12 +76,7 @@
 
                 <label class="mode-option">
 
-                    <input
-                        type="radio"
-                        name="calculationMode"
-                        value="standard"
-                        checked
-                    >
+                    <input type="radio" name="calculationMode" value="standard" checked>
 
                     <span>Standard</span>
 
@@ -91,11 +85,7 @@
 
                 <label class="mode-option">
 
-                    <input
-                        type="radio"
-                        name="calculationMode"
-                        value="trainer"
-                    >
+                    <input type="radio" name="calculationMode" value="trainer">
 
                     <span>Trainer Mode</span>
 
@@ -110,11 +100,7 @@
              TRAINER MODE
         ====================================================== -->
 
-        <section
-            class="trainer-section"
-            id="trainerSettings"
-            hidden
-        >
+        <section class="trainer-section" id="trainerSettings" hidden>
 
             <div class="section-heading">
 
@@ -155,15 +141,8 @@
                             Energy multiplier
                         </small>
 
-                        <input
-                            type="number"
-                            id="trainerActivityMultiplier"
-                            name="trainerActivityMultiplier"
-                            min="1"
-                            max="2.5"
-                            step="0.01"
-                            value="1.55"
-                        >
+                        <input type="number" id="trainerActivityMultiplier" name="trainerActivityMultiplier" min="1"
+                            max="2.5" step="0.01" value="1.55">
 
                     </div>
 
@@ -183,10 +162,7 @@
 
                         <div class="adjustment-input">
 
-                            <select
-                                id="trainerAdjustmentType"
-                                name="trainerAdjustmentType"
-                            >
+                            <select id="trainerAdjustmentType" name="trainerAdjustmentType">
 
                                 <option value="maintain">
                                     Maintain
@@ -205,15 +181,8 @@
 
                             <div class="input-with-unit trainer-percent">
 
-                                <input
-                                    type="number"
-                                    id="trainerAdjustmentPercent"
-                                    name="trainerAdjustmentPercent"
-                                    min="0"
-                                    max="50"
-                                    step="1"
-                                    value="15"
-                                >
+                                <input type="number" id="trainerAdjustmentPercent" name="trainerAdjustmentPercent"
+                                    min="0" max="50" step="1" value="15">
 
                                 <span>%</span>
 
@@ -239,15 +208,8 @@
 
                         <div class="input-with-unit">
 
-                            <input
-                                type="number"
-                                id="trainerProtein"
-                                name="trainerProtein"
-                                min="0.8"
-                                max="3.5"
-                                step="0.1"
-                                value="1.8"
-                            >
+                            <input type="number" id="trainerProtein" name="trainerProtein" min="0.8" max="3.5"
+                                step="0.1" value="1.8">
 
                             <span>
                                 g/kg
@@ -273,15 +235,8 @@
 
                         <div class="input-with-unit">
 
-                            <input
-                                type="number"
-                                id="trainerFat"
-                                name="trainerFat"
-                                min="15"
-                                max="50"
-                                step="1"
-                                value="25"
-                            >
+                            <input type="number" id="trainerFat" name="trainerFat" min="15" max="50" step="1"
+                                value="25">
 
                             <span>
                                 %
@@ -331,10 +286,7 @@
             </div>
 
 
-            <form
-                id="nutritionForm"
-                novalidate
-            >
+            <form id="nutritionForm" novalidate>
 
 
                 <!-- =================================================
@@ -362,16 +314,8 @@
 
                             <div class="input-with-unit">
 
-                                <input
-                                    type="number"
-                                    id="Age"
-                                    name="Age"
-                                    min="18"
-                                    max="90"
-                                    step="1"
-                                    placeholder="24"
-                                    required
-                                >
+                                <input type="number" id="Age" name="Age" min="18" max="90" step="1" placeholder="24"
+                                    required>
 
                                 <span>
                                     years
@@ -395,13 +339,7 @@
 
                                 <label class="radio-option">
 
-                                    <input
-                                        type="radio"
-                                        id="Male"
-                                        name="Gender"
-                                        value="Male"
-                                        required
-                                    >
+                                    <input type="radio" id="Male" name="Gender" value="Male" required>
 
                                     <span>
                                         Male
@@ -412,12 +350,7 @@
 
                                 <label class="radio-option">
 
-                                    <input
-                                        type="radio"
-                                        id="Female"
-                                        name="Gender"
-                                        value="Female"
-                                    >
+                                    <input type="radio" id="Female" name="Gender" value="Female">
 
                                     <span>
                                         Female
@@ -441,10 +374,7 @@
 
                             <div class="height-controls">
 
-                                <select
-                                    id="unit"
-                                    name="unit"
-                                >
+                                <select id="unit" name="unit">
 
                                     <option value="cm">
                                         cm
@@ -457,39 +387,16 @@
                                 </select>
 
 
-                                <input
-                                    type="number"
-                                    id="Centimeters"
-                                    name="Centimeters"
-                                    min="91.44"
-                                    max="274.32"
-                                    step="0.1"
-                                    placeholder="162.5"
-                                >
+                                <input type="number" id="Centimeters" name="Centimeters" min="91.44" max="274.32"
+                                    step="0.1" placeholder="162.5">
 
 
-                                <input
-                                    type="number"
-                                    id="Feet"
-                                    name="Feet"
-                                    min="3"
-                                    max="9"
-                                    step="1"
-                                    placeholder="ft"
-                                    hidden
-                                >
+                                <input type="number" id="Feet" name="Feet" min="3" max="9" step="1" placeholder="ft"
+                                    hidden>
 
 
-                                <input
-                                    type="number"
-                                    id="Inches"
-                                    name="Inches"
-                                    min="0"
-                                    max="11"
-                                    step="1"
-                                    placeholder="in"
-                                    hidden
-                                >
+                                <input type="number" id="Inches" name="Inches" min="0" max="11" step="1"
+                                    placeholder="in" hidden>
 
                             </div>
 
@@ -512,16 +419,8 @@
 
                             <div class="input-with-unit">
 
-                                <input
-                                    type="number"
-                                    id="Weight"
-                                    name="Weight"
-                                    min="25"
-                                    max="450"
-                                    step="0.1"
-                                    placeholder="60"
-                                    required
-                                >
+                                <input type="number" id="Weight" name="Weight" min="25" max="450" step="0.1"
+                                    placeholder="60" required>
 
                                 <span>
                                     kg
@@ -552,11 +451,7 @@
 
                         <label class="choice-card">
 
-                            <input
-                                type="radio"
-                                name="Activity"
-                                value="sedentary"
-                            >
+                            <input type="radio" name="Activity" value="sedentary">
 
                             <span>
 
@@ -575,11 +470,7 @@
 
                         <label class="choice-card">
 
-                            <input
-                                type="radio"
-                                name="Activity"
-                                value="lightly_active"
-                            >
+                            <input type="radio" name="Activity" value="lightly_active">
 
                             <span>
 
@@ -598,13 +489,7 @@
 
                         <label class="choice-card">
 
-                            <input
-                                type="radio"
-                                name="Activity"
-                                value="moderately_active"
-                                checked
-                                required
-                            >
+                            <input type="radio" name="Activity" value="moderately_active" checked required>
 
                             <span>
 
@@ -623,11 +508,7 @@
 
                         <label class="choice-card">
 
-                            <input
-                                type="radio"
-                                name="Activity"
-                                value="very_active"
-                            >
+                            <input type="radio" name="Activity" value="very_active">
 
                             <span>
 
@@ -646,11 +527,7 @@
 
                         <label class="choice-card">
 
-                            <input
-                                type="radio"
-                                name="Activity"
-                                value="extremely_active"
-                            >
+                            <input type="radio" name="Activity" value="extremely_active">
 
                             <span>
 
@@ -687,11 +564,7 @@
 
                         <label class="choice-card compact">
 
-                            <input
-                                type="radio"
-                                name="Goal"
-                                value="maintain"
-                            >
+                            <input type="radio" name="Goal" value="maintain">
 
                             <span>
                                 Maintain Weight
@@ -702,12 +575,7 @@
 
                         <label class="choice-card compact">
 
-                            <input
-                                type="radio"
-                                name="Goal"
-                                value="lose"
-                                checked
-                            >
+                            <input type="radio" name="Goal" value="lose" checked>
 
                             <span>
                                 Lose Weight
@@ -718,11 +586,7 @@
 
                         <label class="choice-card compact">
 
-                            <input
-                                type="radio"
-                                name="Goal"
-                                value="gain"
-                            >
+                            <input type="radio" name="Goal" value="gain">
 
                             <span>
                                 Gain Weight
@@ -737,11 +601,7 @@
 
                 <!-- Validation -->
 
-                <p
-                    id="formMessage"
-                    class="form-message"
-                    aria-live="polite"
-                ></p>
+                <p id="formMessage" class="form-message" aria-live="polite"></p>
 
 
                 <!-- Submit -->
