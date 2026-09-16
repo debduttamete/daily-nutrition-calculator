@@ -1038,10 +1038,10 @@ form.addEventListener(
         }
 
 
-        const fiber =
-            calculateFiber(
-                goalCalories.calories
-            );
+       const fiber =
+    goalCalories
+        ? calculateFiber(goalCalories.calories)
+        : null;
 
 
         // ------------------------------------------
@@ -1112,14 +1112,28 @@ if (bmiNeedsGuidance && calculationMode === "standard") {
         // DISPLAY MACROS
         // ------------------------------------------
 
-        proteinResult.textContent =
-            `${Math.round(macros.protein)} g`;
+if (macros) {
 
-        carbsResult.textContent =
-            `${Math.round(macros.carbs)} g`;
+    proteinResult.textContent =
+        `${Math.round(macros.protein)} g`;
 
-        fatResult.textContent =
-            `${Math.round(macros.fat)} g`;
+    carbsResult.textContent =
+        `${Math.round(macros.carbs)} g`;
+
+    fatResult.textContent =
+        `${Math.round(macros.fat)} g`;
+
+} else {
+
+    proteinResult.textContent =
+        "—";
+
+    carbsResult.textContent =
+        "—";
+
+    fatResult.textContent =
+        "—";
+}
 
 
         // ------------------------------------------
@@ -1147,26 +1161,33 @@ if (bmiNeedsGuidance && calculationMode === "standard") {
             activityFactor.toFixed(2);
 
 
-        const adjustment =
-            goalCalories.adjustment;
+if (goalCalories) {
+
+    const adjustment =
+        goalCalories.adjustment;
 
 
-        if (adjustment === 0) {
+    if (adjustment === 0) {
 
-            goalAdjustmentResult.textContent =
-                "0 kcal";
+        goalAdjustmentResult.textContent =
+            "0 kcal";
 
-        } else if (adjustment < 0) {
+    } else if (adjustment < 0) {
 
-            goalAdjustmentResult.textContent =
-                `${Math.round(adjustment)} kcal`;
+        goalAdjustmentResult.textContent =
+            `${Math.round(adjustment)} kcal`;
 
-        } else {
+    } else {
 
-            goalAdjustmentResult.textContent =
-                `+${Math.round(adjustment)} kcal`;
-        }
+        goalAdjustmentResult.textContent =
+            `+${Math.round(adjustment)} kcal`;
+    }
 
+} else {
+
+    goalAdjustmentResult.textContent =
+        "—";
+}
 
         // ------------------------------------------
         // SHOW RESULTS
