@@ -230,6 +230,7 @@ function calculateBMI(weight, heightCm) {
 }
 
 
+
 function getBMICategory(bmi) {
 
     if (bmi < 18.5) {
