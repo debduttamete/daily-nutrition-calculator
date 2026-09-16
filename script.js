@@ -230,6 +230,7 @@ function calculateBMI(weight, heightCm) {
 }
 
 
+
 function getBMICategory(bmi) {
 
     if (bmi < 18.5) {
@@ -770,7 +771,7 @@ form.addEventListener(
 
         const bmiRecommendationText =
             getBMIRecommendation(bmi);
-
+        const bmiNeedsGuidance = bmi >= 30;
 
         // ------------------------------------------
         // HEALTHY WEIGHT
