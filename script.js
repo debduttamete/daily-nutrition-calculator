@@ -770,7 +770,7 @@ form.addEventListener(
 
         const bmiRecommendationText =
             getBMIRecommendation(bmi);
-
+        const bmiNeedsGuidance = bmi >= 30;
 
         // ------------------------------------------
         // HEALTHY WEIGHT
