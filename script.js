@@ -199,7 +199,6 @@ updateHeightInputs();
 // --------------------------------------------------
 
 function getHeightInCentimeters() {
-
     if (unitSelect.value === "cm") {
         return Number(centimetersInput.value);
     }
@@ -207,10 +206,16 @@ function getHeightInCentimeters() {
     const feet = Number(feetInput.value);
     const inches = Number(inchesInput.value);
 
-    return (
-        feet * 30.48 +
-        inches * 2.54
-    );
+    if (
+        feet < 3 ||
+        feet > 9 ||
+        inches < 0 ||
+        inches > 11
+    ) {
+        return null;
+    }
+
+    return feet * 30.48 + inches * 2.54;
 }
 
 
@@ -259,28 +264,27 @@ function getBMICategory(bmi) {
 function getBMIRecommendation(bmi) {
 
     if (bmi < 18.5) {
-        return "Consider gradually increasing your calorie and nutrient intake.";
+        return "Your BMI is below the healthy range. Consider gradually increasing your calorie and nutrient intake and discussing your diet with a qualified professional.";
     }
 
     if (bmi < 25) {
-        return "Your BMI is within the healthy range.";
+        return "Your BMI is within the healthy range. Focus on maintaining a balanced diet, regular activity, and healthy habits.";
     }
 
     if (bmi < 30) {
-        return "A gradual reduction in body weight may improve health outcomes.";
+        return "Your BMI is above the healthy range. A gradual reduction in body weight may improve health outcomes. Consider discussing your diet and activity with a qualified professional.";
     }
 
     if (bmi < 35) {
-        return "Consider working toward gradual weight reduction.";
+        return "Your BMI is in the Obesity Class 1 range. Consider discussing a structured weight-management approach with a qualified healthcare or fitness professional.";
     }
 
     if (bmi < 40) {
-        return "Consider discussing a structured weight-management plan with a healthcare professional.";
+        return "Your BMI is in the Obesity Class 2 range. This is a concerning range, so please consult a qualified healthcare or fitness professional before deciding on a calorie or weight-management target.";
     }
 
-    return "Consider discussing a structured weight-management plan with a healthcare professional.";
+    return "Your BMI is in the Obesity Class 3 range. Please consult a qualified healthcare professional before deciding on a calorie or weight-management target.";
 }
-
 
 // --------------------------------------------------
 // HEALTHY WEIGHT RANGE
@@ -375,6 +379,7 @@ function calculateMaintenanceCalories(
 
     return bmr * activityFactor;
 }
+
 
 
 // --------------------------------------------------
@@ -653,6 +658,11 @@ form.addEventListener(
 
         const heightCm =
             getHeightInCentimeters();
+        if (heightCm < 91.44 || heightCm > 274.32) {
+            formMessage.textContent =
+                "Please enter a height between 91.4 and 274.3 cm.";
+            return;
+        }
 
 
         // ------------------------------------------
@@ -771,6 +781,7 @@ form.addEventListener(
         const bmiRecommendationText =
             getBMIRecommendation(bmi);
 
+        const bmiNeedsGuidance = bmi >= 30;
 
         // ------------------------------------------
         // HEALTHY WEIGHT
@@ -951,33 +962,41 @@ form.addEventListener(
                 );
 
 
-        // ==========================================
-        // STANDARD MODE
-        // ==========================================
+            // ==========================================
+            // STANDARD MODE
+            // ==========================================
 
         } else {
 
-            goalCalories =
-                calculateGoalCalories(
-                    maintenanceCalories,
-                    goal,
-                    gender
-                );
+            if (bmiNeedsGuidance) {
+
+                goalCalories = null;
+                macros = null;
+
+            } else {
+
+                goalCalories =
+                    calculateGoalCalories(
+                        maintenanceCalories,
+                        goal,
+                        gender
+                    );
 
 
-            const proteinPerKg =
-                goal === "lose"
-                    ? 1.8
-                    : 1.6;
+                const proteinPerKg =
+                    goal === "lose"
+                        ? 1.8
+                        : 1.6;
 
 
-            macros =
-                calculateMacros(
-                    goalCalories.calories,
-                    weight,
-                    proteinPerKg,
-                    25
-                );
+                macros =
+                    calculateMacros(
+                        goalCalories.calories,
+                        weight,
+                        proteinPerKg,
+                        25
+                    );
+            }
         }
 
 
@@ -1032,45 +1051,53 @@ form.addEventListener(
 
 
         const fiber =
-            calculateFiber(
-                goalCalories.calories
-            );
+            goalCalories
+                ? calculateFiber(goalCalories.calories)
+                : null;
 
 
         // ------------------------------------------
         // DISPLAY CALORIES
         // ------------------------------------------
 
-        caloriesResult.textContent =
-            `${Math.round(goalCalories.calories)} kcal`;
 
+        if (bmiNeedsGuidance && calculationMode === "standard") {
 
-        if (
-            calculationMode === "trainer"
-        ) {
+            caloriesResult.textContent =
+                "Individual guidance";
 
             calorieDescription.textContent =
-                "Customized trainer target based on your selected settings.";
+                "Your BMI is in a concerning range. Please consult a qualified healthcare or fitness professional before deciding on a calorie or weight-management target.";
 
         } else {
 
-            if (goal === "maintain") {
+            caloriesResult.textContent =
+                `${Math.round(goalCalories.calories)} kcal`;
+
+            if (calculationMode === "trainer") {
 
                 calorieDescription.textContent =
-                    "Estimated calories to maintain your current weight.";
-
-            } else if (goal === "lose") {
-
-                calorieDescription.textContent =
-                    "Estimated daily calories for gradual weight loss.";
+                    "Customized trainer target based on your selected settings.";
 
             } else {
 
-                calorieDescription.textContent =
-                    "Estimated daily calories for gradual weight gain.";
+                if (goal === "maintain") {
+
+                    calorieDescription.textContent =
+                        "Estimated calories to maintain your current weight.";
+
+                } else if (goal === "lose") {
+
+                    calorieDescription.textContent =
+                        "Estimated daily calories for gradual weight loss.";
+
+                } else {
+
+                    calorieDescription.textContent =
+                        "Estimated daily calories for gradual weight gain.";
+                }
             }
         }
-
 
         // ------------------------------------------
         // DISPLAY BMI
@@ -1098,14 +1125,23 @@ form.addEventListener(
         // DISPLAY MACROS
         // ------------------------------------------
 
-        proteinResult.textContent =
-            `${Math.round(macros.protein)} g`;
+        if (macros) {
 
-        carbsResult.textContent =
-            `${Math.round(macros.carbs)} g`;
+            proteinResult.textContent =
+                `${Math.round(macros.protein)} g`;
 
-        fatResult.textContent =
-            `${Math.round(macros.fat)} g`;
+            carbsResult.textContent =
+                `${Math.round(macros.carbs)} g`;
+
+            fatResult.textContent =
+                `${Math.round(macros.fat)} g`;
+
+        } else {
+
+            proteinResult.textContent = "—";
+            carbsResult.textContent = "—";
+            fatResult.textContent = "—";
+        }
 
 
         // ------------------------------------------
@@ -1116,8 +1152,9 @@ form.addEventListener(
             `${water.toFixed(1)} L`;
 
         fiberResult.textContent =
-            `${Math.round(fiber)} g`;
-
+            fiber !== null
+                ? `${Math.round(fiber)} g`
+                : "—";
         stepsResult.textContent =
             steps;
 
@@ -1134,10 +1171,17 @@ form.addEventListener(
 
 
         const adjustment =
-            goalCalories.adjustment;
+            goalCalories
+                ? goalCalories.adjustment
+                : null;
 
 
-        if (adjustment === 0) {
+        if (adjustment === null) {
+
+            goalAdjustmentResult.textContent =
+                "Individual guidance";
+
+        } else if (adjustment === 0) {
 
             goalAdjustmentResult.textContent =
                 "0 kcal";
