@@ -951,34 +951,40 @@ form.addEventListener(
                 );
 
 
-        // ==========================================
-        // STANDARD MODE
-        // ==========================================
+       // ==========================================
+// STANDARD MODE
+// ==========================================
 
-        } else {
+} else {
 
-            goalCalories =
-                calculateGoalCalories(
-                    maintenanceCalories,
-                    goal,
-                    gender
-                );
+    if (bmiNeedsGuidance) {
 
+        goalCalories = null;
+        macros = null;
 
-            const proteinPerKg =
-                goal === "lose"
-                    ? 1.8
-                    : 1.6;
+    } else {
 
+        goalCalories =
+            calculateGoalCalories(
+                maintenanceCalories,
+                goal,
+                gender
+            );
 
-            macros =
-                calculateMacros(
-                    goalCalories.calories,
-                    weight,
-                    proteinPerKg,
-                    25
-                );
-        }
+        const proteinPerKg =
+            goal === "lose"
+                ? 1.8
+                : 1.6;
+
+        macros =
+            calculateMacros(
+                goalCalories.calories,
+                weight,
+                proteinPerKg,
+                25
+            );
+    }
+}
 
 
         // ------------------------------------------
@@ -1038,39 +1044,46 @@ form.addEventListener(
 
 
         // ------------------------------------------
-        // DISPLAY CALORIES
-        // ------------------------------------------
+// DISPLAY CALORIES
+// ------------------------------------------
 
-        caloriesResult.textContent =
-            `${Math.round(goalCalories.calories)} kcal`;
+if (bmiNeedsGuidance && calculationMode === "standard") {
 
+    caloriesResult.textContent =
+        "Individual guidance";
 
-        if (
-            calculationMode === "trainer"
-        ) {
+    calorieDescription.textContent =
+        "Your BMI is in a concerning range. Please consult a qualified healthcare or fitness professional before deciding on a calorie or weight-management target.";
+
+} else {
+
+    caloriesResult.textContent =
+        `${Math.round(goalCalories.calories)} kcal`;
+
+    if (calculationMode === "trainer") {
+
+        calorieDescription.textContent =
+            "Customized trainer target based on your selected settings.";
+
+    } else {
+
+        if (goal === "maintain") {
 
             calorieDescription.textContent =
-                "Customized trainer target based on your selected settings.";
+                "Estimated calories to maintain your current weight.";
+
+        } else if (goal === "lose") {
+
+            calorieDescription.textContent =
+                "Estimated daily calories for gradual weight loss.";
 
         } else {
 
-            if (goal === "maintain") {
-
-                calorieDescription.textContent =
-                    "Estimated calories to maintain your current weight.";
-
-            } else if (goal === "lose") {
-
-                calorieDescription.textContent =
-                    "Estimated daily calories for gradual weight loss.";
-
-            } else {
-
-                calorieDescription.textContent =
-                    "Estimated daily calories for gradual weight gain.";
-            }
+            calorieDescription.textContent =
+                "Estimated daily calories for gradual weight gain.";
         }
-
+    }
+}
 
         // ------------------------------------------
         // DISPLAY BMI
